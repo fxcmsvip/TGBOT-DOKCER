@@ -47,9 +47,18 @@ class Settings(BaseSettings):
     INIT_ADMIN_PASSWORD: str = "admin123"
 
     # AI (optional)
+    AI_PROVIDER: str = "openai"  # "openai" | "anthropic" | "ollama" | "coze" | "custom"
     AI_BASE_URL: Optional[str] = None
     AI_API_KEY: Optional[str] = None
     AI_MODEL: Optional[str] = None
+
+    # Ollama (local AI)
+    OLLAMA_BASE_URL: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "llama3.1"
+
+    # Coze (扣子)
+    COZE_API_KEY: Optional[str] = None
+    COZE_BOT_ID: Optional[str] = None
 
     # RAG (optional)
     RAG_PROVIDER: Optional[str] = None          # "dify" | None
@@ -57,6 +66,18 @@ class Settings(BaseSettings):
     DIFY_API_KEY: Optional[str] = None           # dataset-xxx
     DIFY_DATASET_ID: Optional[str] = None        # UUID
     RAG_TOP_K: int = 3
+
+    # Agent System
+    AGENT_DEFAULT_MODEL: Optional[str] = None   # Falls back to AI_MODEL
+    AGENT_MAX_HISTORY: int = 20
+
+    # Bot Source Code Management
+    BOT_SOURCE_DIR: str = "/app/bot_sources"
+    BOT_LOCAL_EXECUTION: bool = False
+
+    # Scheduled Tasks
+    TASK_SCHEDULER_ENABLED: bool = True
+    TASK_SCHEDULER_TIMEZONE: str = "UTC"
 
     # OAuth
     OAUTH_ENCRYPTION_KEY: str = ""     # Fernet key; auto-generated if empty

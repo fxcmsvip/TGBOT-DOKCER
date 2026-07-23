@@ -158,7 +158,21 @@ AI 将用户问题分类到预定义的类别中，返回 `{"category": "xxx", "
 ### AI 与知识库
 - **RAG 知识库检索** &mdash; 模块化 RAG 架构，已对接 Dify Knowledge API（支持 GTE-multilingual + pgvector），模块化 `rag_configs` 配置，可扩展其他 RAG 平台
 - **AI Provider OAuth 多认证** &mdash; 支持 API Key / OpenAI OAuth / Claude OAuth / Claude Session Token / Gemini OAuth 五种认证方式，自动 Token 刷新
-- **AI 集成** &mdash; 兼容 OpenAI API 格式，支持多 AI 服务商配置
+- **AI 集成** &mdash; 兼容 OpenAI API 格式，支持多 AI 服务商配置（OpenAI、Anthropic、Ollama、扣子 Coze）
+
+### 智能体系统 (Agent System)
+- **智能体角色管理** &mdash; 创建自定义 AI 智能体，配置角色名称、描述、系统提示词、头像和欢迎消息
+- **多模型支持** &mdash; 每个智能体可绑定不同的 AI 配置，支持 OpenAI、Anthropic、Ollama、扣子等多种 provider
+- **权限控制** &mdash; 智能体可配置访问权限，支持按用户组或角色授权
+- **会话管理** &mdash; 完整的会话历史和消息记录，支持上下文对话
+- **定时任务** &mdash; 支持 cron 表达式配置定时任务，自动执行消息发送、数据清理等操作
+
+### 机器人源码管理
+- **源码自动生成** &mdash; 根据 Bot 配置自动生成 aiogram Python 源码
+- **在线编辑** &mdash; 内置源码编辑器，支持语法高亮和代码验证
+- **本地执行** &mdash; 支持在本地运行生成的 Bot 源码，快速测试
+- **重启策略** &mdash; 智能重启：优先启动本地源码，失败后自动回退到远程模式
+- **版本管理** &mdash; 源码变更自动记录，支持回滚到历史版本
 
 <details>
 <summary><strong>RAG 知识库推荐配置指南（点击展开）</strong></summary>
