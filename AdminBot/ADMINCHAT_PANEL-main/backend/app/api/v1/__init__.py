@@ -18,6 +18,9 @@ from app.api.v1.rag_config import router as rag_config_router
 from app.api.v1.audit import router as audit_router
 from app.api.v1.settings import router as settings_router
 from app.api.v1.market_proxy import router as market_proxy_router
+from app.api.v1.agents import router as agents_router
+from app.api.v1.tasks import router as tasks_router
+from app.api.v1.bot_source import router as bot_source_router
 from app.plugins.routes import router as plugins_router
 from app.services.turnstile import router as turnstile_router
 
@@ -43,3 +46,6 @@ router.include_router(market_proxy_router, prefix="/plugins", tags=["Market Prox
 router.include_router(plugins_router, prefix="/plugins", tags=["Plugins"])
 router.include_router(turnstile_router, prefix="/turnstile", tags=["Turnstile"])
 router.include_router(audit_router, prefix="/audit-logs", tags=["Audit Logs"])
+router.include_router(agents_router, prefix="/agents", tags=["Agents"])
+router.include_router(tasks_router, prefix="/tasks", tags=["Scheduled Tasks"])
+router.include_router(bot_source_router, tags=["Bot Source Code"])

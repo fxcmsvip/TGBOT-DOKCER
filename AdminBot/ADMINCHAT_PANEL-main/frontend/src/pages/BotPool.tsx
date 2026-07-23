@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { Plus, X, Users, ChevronDown, ChevronRight } from 'lucide-react';
+import { Plus, X, Users, ChevronDown, ChevronRight, Code2 } from 'lucide-react';
 import Header from '../components/layout/Header';
 import {
   getBots, createBot, updateBot, deleteBot, restartBot,
@@ -9,6 +9,7 @@ import {
   type BotCreateData, type BotUpdateData, type BotGroupCreateData,
 } from '../services/botApi';
 import type { Bot, BotGroup } from '../types';
+import BotSourceEditor from '../components/bots/BotSourceEditor';
 
 // ---- Status badge component ----
 function StatusBadge({ status }: { status: string }) {
@@ -43,7 +44,7 @@ function PriorityBar({ value, max = 10 }: { value: number; max?: number }) {
 }
 
 // ---- Bot row ----
-function BotRow({ bot, onEdit, onRestart, onDelete }: { bot: Bot; onEdit: (b: Bot) => void; onRestart: (id: number) => void; onDelete: (id: number) => void }) {
+function BotRow({ bot, onEdit, onRestart, onDelete, onSource }: { bot: Bot; onEdit: (b: Bot) => void; onRestart: (id: number) => void; onDelete: (id: number) => void; onSource: (b: Bot) => void }) {
   const { t } = useTranslation();
   return (
     <tr className="border-b border-border-subtle hover:bg-bg-elevated/30 transition-colors">
@@ -69,6 +70,14 @@ function BotRow({ bot, onEdit, onRestart, onDelete }: { bot: Bot; onEdit: (b: Bo
       </td>
       <td className="px-5 py-3.5">
         <div className="flex items-center justify-end gap-2">
+          <button
+            onClick={() => onSource(bot)}
+            className="px-3 py-1 rounded-md text-xs font-medium text-accent border border-accent/30 hover:bg-accent/10 transition-colors"
+            title="View Source Code"
+          >
+            <Code2 size={14} className="inline mr-1" />
+            Source
+          </button>
           <button
             onClick={() => onEdit(bot)}
             className="px-3 py-1 rounded-md text-xs font-medium text-text-secondary border border-border hover:bg-bg-elevated hover:text-text-primary transition-colors"
@@ -104,6 +113,7 @@ export default function BotPool() {
   const [expandedGroups, setExpandedGroups] = useState<Set<number>>(new Set());
   const [managingMembers, setManagingMembers] = useState<BotGroup | null>(null);
   const [memberBotIds, setMemberBotIds] = useState<number[]>([]);
+  const [sourceBot, setSourceBot] = useState<Bot | null>(null);
 
   // Form state
   const [formToken, setFormToken] = useState('');
@@ -431,7 +441,7 @@ export default function BotPool() {
                         <tr><td colSpan={6} className="text-center text-text-muted text-sm py-8">{t('botPool.noBotsInGroup')}</td></tr>
                       ) : (
                         botsInGroup.map(bot => (
-                          <BotRow key={bot.id} bot={bot} onEdit={startEdit} onRestart={(id) => restartMutation.mutate(id)} onDelete={(id) => setDeleteConfirm(id)} />
+                          <BotRow key={bot.id} bot={bot} onEdit={startEdit} onRestart={(id) => restartMutation.mutate(id)} onDelete={(id) => setDeleteConfirm(id)} onSource={setSourceBot} />
                         ))
                       )}
                     </tbody>
@@ -466,7 +476,7 @@ export default function BotPool() {
                 </tr>
               ) : (
                 ungroupedBots.map(bot => (
-                  <BotRow key={bot.id} bot={bot} onEdit={startEdit} onRestart={(id) => restartMutation.mutate(id)} onDelete={(id) => setDeleteConfirm(id)} />
+                  <BotRow key={bot.id} bot={bot} onEdit={startEdit} onRestart={(id) => restartMutation.mutate(id)} onDelete={(id) => setDeleteConfirm(id)} onSource={setSourceBot} />
                 ))
               )}
             </tbody>
@@ -595,6 +605,15 @@ export default function BotPool() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Source Code Editor */}
+        {sourceBot && (
+          <BotSourceEditor
+            botId={sourceBot.id}
+            botName={sourceBot.name}
+            onClose={() => setSourceBot(null)}
+          />
         )}
       </div>
     </div>

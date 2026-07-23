@@ -60,6 +60,7 @@ const Settings = lazy(() => import('./pages/Settings'));
 const Blacklist = lazy(() => import('./pages/Blacklist'));
 const AuditLog = lazy(() => import('./pages/AuditLog'));
 const Market = lazy(() => import('./pages/Market'));
+const Agents = lazy(() => import('./pages/Agents'));
 const TurnstileVerify = lazy(() => import('./pages/TurnstileVerify'));
 
 function PageLoader() {
@@ -109,6 +110,7 @@ function AppRoutes() {
         <Route path="/faq/ranking" element={<FAQRanking />} />
         <Route path="/faq/missed" element={<MissedKnowledge />} />
         <Route path="/ai" element={<AISettings />} />
+        <Route path="/agents" element={<Agents />} />
         <Route path="/admins" element={<AdminManage />} />
         <Route path="/audit-logs" element={<AuditLog />} />
         <Route path="/settings" element={<Settings />} />

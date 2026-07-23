@@ -48,6 +48,7 @@ const navItems: NavItem[] = [
   { to: '/faq/ranking', icon: <BarChart3 size={20} />, labelKey: 'nav.ranking', minRole: 'agent' },
   { to: '/faq/missed', icon: <BookOpen size={20} />, labelKey: 'nav.missed', minRole: 'admin' },
   { to: '/ai', icon: <BrainCircuit size={20} />, labelKey: 'nav.ai', minRole: 'super_admin' },
+  { to: '/agents', icon: <Bot size={20} />, labelKey: 'nav.agents', minRole: 'admin' },
   { to: '/admins', icon: <ShieldCheck size={20} />, labelKey: 'nav.admins', minRole: 'super_admin' },
   { to: '/audit-logs', icon: <FileText size={20} />, labelKey: 'nav.auditLog', minRole: 'super_admin' },
   { to: '/settings', icon: <Settings size={20} />, labelKey: 'nav.settings', minRole: 'super_admin' },

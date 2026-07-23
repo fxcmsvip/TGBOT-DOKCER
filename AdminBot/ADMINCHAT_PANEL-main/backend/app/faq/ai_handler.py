@@ -39,8 +39,9 @@ class AIConfig:
     temperature: float = 0.7
     system_prompt: str = ""
     timeout: float = 30.0
-    api_format: str = "openai_chat"  # 'openai_chat' or 'anthropic_responses'
+    api_format: str = "openai_chat"  # 'openai_chat', 'anthropic_responses', 'ollama', 'coze'
     auth_method: str = ""  # 'claude_oauth', 'openai_oauth', 'api_key', etc.
+    provider: str = ""  # 'openai', 'anthropic', 'ollama', 'coze', 'custom'
 
 
 class AIHandler:
@@ -78,13 +79,35 @@ class AIHandler:
 
         base = config.base_url.rstrip("/")
 
-        # Build URL based on api_format
-        if config.api_format == "anthropic_responses":
+        # Build URL based on api_format or provider
+        api_format = config.api_format
+        if config.provider == "ollama":
+            api_format = "ollama"
+        elif config.provider == "coze":
+            api_format = "coze"
+
+        if api_format == "anthropic_responses":
             # Anthropic Responses format (CRS: /openai/v1/responses)
             if "/responses" in base:
                 url = base
             else:
                 url = base + "/v1/responses"
+        elif api_format == "ollama":
+            # Ollama format: /api/chat
+            if "/api/chat" in base:
+                url = base
+            elif base.endswith("/api"):
+                url = base + "/chat"
+            else:
+                url = base + "/api/chat"
+        elif api_format == "coze":
+            # Coze API format: /v3/chat
+            if "/v3/chat" in base:
+                url = base
+            elif base.endswith("/v3"):
+                url = base + "/chat"
+            else:
+                url = base + "/v3/chat"
         else:
             # OpenAI Chat Completions format (default)
             if "/chat/completions" in base or "/completions" in base:
@@ -101,7 +124,49 @@ class AIHandler:
         }
 
         # Build payload based on api_format
-        if config.api_format == "anthropic_responses":
+        if api_format == "ollama":
+            # Ollama format: {"model": "...", "messages": [...], "stream": false}
+            payload: Dict[str, Any] = {
+                "model": config.model,
+                "messages": messages,
+                "stream": False,
+                "options": {
+                    "temperature": config.temperature,
+                    "num_predict": config.max_tokens,
+                }
+            }
+            # Ollama doesn't require auth for local instances
+            if config.api_key and config.api_key != "ollama":
+                headers["Authorization"] = f"Bearer {config.api_key}"
+            else:
+                del headers["Authorization"]
+                del headers["x-api-key"]
+        elif api_format == "coze":
+            # Coze API format: {"bot_id": "...", "user_id": "...", "messages": [...]}
+            # Coze uses a different message format
+            coze_messages = []
+            for msg in messages:
+                role = msg.get("role", "user")
+                content = msg.get("content", "")
+                # Coze uses role: "user" or "assistant", and type: "question"/"answer"
+                if role == "system":
+                    # Coze doesn't have system role, prepend to first user message
+                    continue
+                coze_messages.append({
+                    "role": role,
+                    "type": "question" if role == "user" else "answer",
+                    "content": content,
+                    "content_type": "text",
+                })
+            payload = {
+                "bot_id": config.model,  # Coze uses bot_id as model identifier
+                "user_id": "admin_panel",
+                "messages": coze_messages,
+                "stream": False,
+            }
+            # Coze uses PAT (Personal Access Token)
+            headers["Authorization"] = f"Bearer {config.api_key}"
+        elif config.api_format == "anthropic_responses":
             # CRS GPT Responses format: uses "input" + stream=true
             input_items = []
             for msg in messages:
@@ -211,13 +276,37 @@ class AIHandler:
                 logger.exception("AI API call failed")
                 raise
 
-            choice = data.get("choices", [{}])[0]
-            content = choice.get("message", {}).get("content", "").strip()
-            usage = data.get("usage", {})
-            tokens_used = usage.get("total_tokens", 0)
-            prompt_tokens = usage.get("prompt_tokens", 0)
-            completion_tokens = usage.get("completion_tokens", 0)
-            model_name = data.get("model", config.model)
+            # Parse response based on format
+            if api_format == "ollama":
+                # Ollama response format: {"message": {"content": "..."}, "eval_count": ...}
+                message = data.get("message", {})
+                content = message.get("content", "").strip()
+                tokens_used = data.get("eval_count", 0) + data.get("prompt_eval_count", 0)
+                prompt_tokens = data.get("prompt_eval_count", 0)
+                completion_tokens = data.get("eval_count", 0)
+                model_name = data.get("model", config.model)
+            elif api_format == "coze":
+                # Coze response format: {"data": {"messages": [{"content": "..."}], "usage": {...}}}
+                coze_data = data.get("data", {})
+                coze_messages = coze_data.get("messages", [])
+                if coze_messages:
+                    content = coze_messages[-1].get("content", "").strip()
+                else:
+                    content = ""
+                usage = coze_data.get("usage", {})
+                tokens_used = usage.get("total_tokens", 0)
+                prompt_tokens = usage.get("prompt_tokens", 0)
+                completion_tokens = usage.get("completion_tokens", 0)
+                model_name = config.model  # Coze doesn't return model name
+            else:
+                # Standard OpenAI format
+                choice = data.get("choices", [{}])[0]
+                content = choice.get("message", {}).get("content", "").strip()
+                usage = data.get("usage", {})
+                tokens_used = usage.get("total_tokens", 0)
+                prompt_tokens = usage.get("prompt_tokens", 0)
+                completion_tokens = usage.get("completion_tokens", 0)
+                model_name = data.get("model", config.model)
 
         latency = (time.monotonic() - start) * 1000
 

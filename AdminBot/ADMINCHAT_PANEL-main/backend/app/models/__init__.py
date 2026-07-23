@@ -18,6 +18,9 @@ from app.models.ai_config import AiConfig, AiUsageLog
 from app.models.rag_config import RagConfig
 from app.models.settings import SystemSetting
 from app.models.audit import AuditLog
+from app.models.agent import Agent, AgentConversation, AgentMessage
+from app.models.scheduled_task import ScheduledTask, TaskExecutionLog
+from app.models.bot_source import BotSourceCode
 
 __all__ = [
     "Base",
@@ -49,4 +52,10 @@ __all__ = [
     "RagConfig",
     "SystemSetting",
     "AuditLog",
+    "Agent",
+    "AgentConversation",
+    "AgentMessage",
+    "ScheduledTask",
+    "TaskExecutionLog",
+    "BotSourceCode",
 ]

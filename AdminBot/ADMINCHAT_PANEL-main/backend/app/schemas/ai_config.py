@@ -13,11 +13,11 @@ from pydantic import BaseModel, Field
 
 class AIConfigCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
-    provider: str = Field(..., pattern=r"^(openai|anthropic|custom)$")
+    provider: str = Field(..., pattern=r"^(openai|anthropic|custom|ollama|coze)$")
     base_url: str = Field(..., min_length=1, max_length=500)
     api_key: str = Field(..., min_length=1, max_length=500)
     model: Optional[str] = Field(None, max_length=100)
-    api_format: str = Field(default="openai_chat", pattern=r"^(openai_chat|anthropic_responses)$")
+    api_format: str = Field(default="openai_chat", pattern=r"^(openai_chat|anthropic_responses|ollama|coze)$")
     default_params: Dict[str, Any] = Field(default_factory=lambda: {
         "temperature": 0.7,
         "max_tokens": 500,
@@ -27,11 +27,11 @@ class AIConfigCreate(BaseModel):
 
 class AIConfigUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=100)
-    provider: Optional[str] = Field(None, pattern=r"^(openai|anthropic|custom)$")
+    provider: Optional[str] = Field(None, pattern=r"^(openai|anthropic|custom|ollama|coze)$")
     base_url: Optional[str] = Field(None, min_length=1, max_length=500)
     api_key: Optional[str] = Field(None, min_length=1, max_length=500)
     model: Optional[str] = Field(None, max_length=100)
-    api_format: Optional[str] = Field(None, pattern=r"^(openai_chat|anthropic_responses)$")
+    api_format: Optional[str] = Field(None, pattern=r"^(openai_chat|anthropic_responses|ollama|coze)$")
     default_params: Optional[Dict[str, Any]] = None
     is_active: Optional[bool] = None
 
