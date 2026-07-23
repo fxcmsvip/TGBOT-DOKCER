@@ -1,0 +1,25 @@
+"""Plugin: {{ plugin_name }}"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from acp_plugin_sdk import PluginContext
+
+_context: PluginContext | None = None
+
+
+async def setup(context: PluginContext) -> None:
+    """Called when the plugin is activated."""
+    global _context
+    _context = context
+    context.logger.info(f"{context.plugin_id} v{context.version} activated")
+
+
+async def teardown() -> None:
+    """Called when the plugin is deactivated."""
+    global _context
+    if _context:
+        _context.logger.info(f"{_context.plugin_id} deactivated")
+    _context = None

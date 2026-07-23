@@ -1,0 +1,296 @@
+# ADMINCHAT Panel - 开发进度跟踪
+
+> 用于 vibe coding 时监控任务进度与管理状态。
+> 标记规则: ⬜ 未开始 | 🔧 进行中 | ✅ 完成 | ❌ 阻塞
+
+## Phase 1: 项目初始化与基础架构
+
+- ✅ 1.1 初始化后端项目结构 (FastAPI + pip)
+- ✅ 1.2 初始化前端项目结构 (Vite + React + TS)
+- ✅ 1.3 配置 Docker Compose (PG + Redis + 后端 + 前端)
+- ✅ 1.4 配置 Alembic 数据库迁移
+- ✅ 1.5 创建所有数据库表 (23 tables)
+- ✅ 1.6 配置 GitHub Actions CI/CD
+- ✅ 1.7 配置 Tailwind + 设计系统颜色
+- ✅ 1.8 前端路由骨架 + 布局框架 (侧边导航 + 顶栏)
+
+## Phase 2: 认证与权限
+
+- ✅ 2.1 后端 JWT 认证 (login/refresh/logout)
+- ✅ 2.2 权限中间件 (role-based + permission-based)
+- ✅ 2.3 初始管理员自动创建 (首次启动)
+- ✅ 2.4 前端登录页 (品牌展示 + 登录表单)
+- ✅ 2.5 前端认证状态管理 (Zustand store + persist)
+- ✅ 2.6 前端路由守卫 (权限检查 + token 刷新)
+
+## Phase 3: Bot 核心功能
+
+- ✅ 3.1 BotManager: 多 bot 生命周期管理
+- ✅ 3.2 aiogram handlers: 私聊消息接收
+- ✅ 3.3 aiogram handlers: 群组 @bot 消息接收
+- ✅ 3.4 消息存储到 DB + Redis PUBLISH
+- ✅ 3.5 Bot 限流检测 (Redis token bucket)
+- ✅ 3.6 消息发送 + bot failover 逻辑
+- ✅ 3.7 分布式锁防重复发送
+- ✅ 3.8 Webhook / Polling 双模式支持
+- ✅ 3.9 /FAQRanking 群内指令
+
+## Phase 4: 实时通信 (WebSocket)
+
+- ✅ 4.1 WebSocket 端点 (/ws/chat)
+- ✅ 4.2 Redis pub/sub → WebSocket 消息分发
+- ✅ 4.3 前端 WebSocket hook (连接/重连/心跳)
+- ✅ 4.4 消息实时推送到聊天窗口
+- ✅ 4.5 会话状态实时同步
+- ✅ 4.6 Bot 状态实时推送
+
+## Phase 5: 聊天主页 (Chat)
+
+- ✅ 5.1 后端: 会话列表 API (排序/筛选/分页)
+- ✅ 5.2 后端: 消息历史 API
+- ✅ 5.3 后端: 发送消息 API (文本 + Markdown)
+- ✅ 5.4 后端: 发送图片/媒体 API
+- ✅ 5.5 前端: 会话侧边栏列表
+- ✅ 5.6 前端: 聊天窗口 (消息气泡 + Markdown 渲染)
+- ✅ 5.7 前端: 消息输入框 (Markdown 编辑 + 图片上传)
+- ✅ 5.8 前端: 群消息/私聊消息显示区分
+- ✅ 5.9 前端: 标记已处理/未处理
+- ✅ 5.10 前端: 会话分配功能
+
+## Phase 6: 用户管理
+
+- ✅ 6.1 后端: 用户 CRUD + 搜索 API
+- ✅ 6.2 后端: 标签系统 API
+- ✅ 6.3 后端: 分组系统 API
+- ✅ 6.4 后端: 拉黑/取消拉黑 API
+- ✅ 6.5 后端: 用户头像获取
+- ✅ 6.6 前端: UsersGrid 用户网格页
+- ✅ 6.7 前端: UserDetail 用户详情页
+- ✅ 6.8 前端: Blacklist 黑名单页
+
+## Phase 7: Bot 池管理
+
+- ✅ 7.1 后端: Bot CRUD API
+- ✅ 7.2 后端: Bot 实时状态 API
+- ✅ 7.3 后端: Bot 热加载 (新增/删除不重启服务)
+- ✅ 7.4 前端: BotPool 管理页
+
+## Phase 8: FAQ 系统
+
+- ✅ 8.1 后端: FAQ 问题/答案/规则 CRUD API
+- ✅ 8.2 后端: FAQ 匹配引擎 (4 种 match_mode)
+- ✅ 8.3 后端: FAQ 命中统计
+- ✅ 8.4 前端: FAQList 列表页
+- ✅ 8.5 前端: FAQEditor 左右分屏编辑器
+- ✅ 8.6 前端: FAQRanking 排行榜页
+
+## Phase 9: 遗漏知识点
+
+- ✅ 9.1 后端: 未匹配消息记录
+- ✅ 9.2 后端: 关键词提取定时任务 (凌晨3点)
+- ✅ 9.3 后端: 遗漏知识点 API
+- ✅ 9.4 前端: MissedKnowledge 页面
+
+## Phase 10: AI 集成
+
+- ✅ 10.1 后端: AI 配置 CRUD API
+- ✅ 10.2 后端: AI 回复处理器 (ai_only)
+- ✅ 10.3 后端: AI 润色处理器 (ai_polish)
+- ✅ 10.4 后端: AI 兜底处理器 (ai_fallback)
+- ✅ 10.5 后端: AI 意图识别处理器 (ai_intent)
+- ✅ 10.6 后端: AI 模板填充处理器 (ai_template)
+- ✅ 10.7 后端: AI 综合回答处理器 (ai_classify_and_answer)
+- ✅ 10.8 后端: AI 用量限制 + 统计
+- ✅ 10.9 后端: RAG 模块化实现 (Dify Knowledge API)
+- ✅ 10.10 前端: AISettings 配置页
+
+## Phase 11: 统计面板
+
+- ✅ 11.1 后端: Dashboard 统计 API (真实DB查询)
+- ✅ 11.2 前端: Dashboard 页面 (统计卡片 + 图表 + 自动刷新)
+
+## Phase 12: 管理员与系统设置
+
+- ✅ 12.1 后端: 管理员 CRUD API
+- ✅ 12.2 后端: 权限管理 API
+- ✅ 12.3 后端: 系统设置 API
+- ✅ 12.4 前端: AdminManage 页面
+- ✅ 12.5 前端: Settings 页面
+
+## Phase 13: Cloudflare Turnstile
+
+- ✅ 13.1 后端: Turnstile 验证 API
+- ✅ 13.2 后端: Bot 私聊验证检查中间件
+- ⬜ 13.3 前端: Turnstile 验证页面
+
+## Phase 14: 媒体缓存
+
+- ✅ 14.1 后端: 媒体下载 + 缓存逻辑
+- ✅ 14.2 后端: 缓存过期清理定时任务
+- ✅ 14.3 后端: 过期媒体重新拉取
+
+## Phase 15: 审计与日志
+
+- ✅ 15.1 后端: 操作审计日志服务
+- ⬜ 15.2 前端: 审计日志查看页面 (可选)
+
+## Phase 16: 测试与优化
+
+- ⬜ 16.1 后端单元测试 (核心逻辑)
+- ⬜ 16.2 API 集成测试
+- ⬜ 16.3 前端组件测试
+- ✅ 16.4 性能优化 (N+1 查询, 缓存策略)
+- ✅ 16.5 安全审计 (XSS, CSRF, SQL注入)
+
+## Phase 17: Docker 与发布
+
+- ✅ 17.1 后端 Dockerfile
+- ✅ 17.2 前端 Dockerfile (多阶段构建)
+- ✅ 17.3 docker-compose.yml 完善
+- ✅ 17.4 GitHub Actions 自动构建 + 推送 GHCR
+- ✅ 17.5 .env.example + 部署文档
+
+## Phase 18: Bot 分组 + FAQ 分组路由
+
+- ✅ 18.1 BotGroup + BotGroupMember 模型
+- ✅ 18.2 FaqGroup + FaqCategory 模型 + FaqRule.category_id
+- ✅ 18.3 Bot Group CRUD API + 成员管理
+- ✅ 18.4 FAQ Group / Category CRUD API
+- ✅ 18.5 FAQ 路由继承逻辑 (category → group → fallback)
+- ✅ 18.6 get_bot_from_group() 按优先级选 Bot
+- ✅ 18.7 Private / Group Handler 路由 Bot 发送
+- ✅ 18.8 前端 BotPool 分组 UI + 成员管理弹窗
+- ✅ 18.9 前端 FAQList 左侧树形导航
+- ✅ 18.10 前端 FAQEditor Category 选择器
+- ✅ 18.11 Alembic 迁移 (4 张新表 + 1 字段)
+
+## Phase 19: RAG 知识库检索
+
+- ✅ 19.1 RAGProvider 抽象基类 + RAGResult 数据类
+- ✅ 19.2 DifyRAGProvider (Dify Knowledge API hybrid_search)
+- ✅ 19.3 工厂函数 get_rag_provider() (async-safe 单例)
+- ✅ 19.4 RAG 配置项 (RAG_PROVIDER/DIFY_BASE_URL/DIFY_API_KEY/DIFY_DATASET_ID/RAG_TOP_K)
+- ✅ 19.5 Private Handler reply_mode=rag 分支
+- ✅ 19.6 Group Handler reply_mode=rag 分支
+- ✅ 19.7 rag_handler.py 向后兼容 wrapper
+- ✅ 19.8 FastAPI lifespan shutdown_rag_provider()
+- ✅ 19.9 代码质量: 移除 debug print / try-finally / 输入校验 / URL 校验
+
+## Phase 20: AI Provider OAuth 多认证
+
+- ✅ 20.1 后端: config.py 追加 OAUTH_ENCRYPTION_KEY / PANEL_BASE_URL
+- ✅ 20.2 后端: AiConfig Model 追加 auth_method + oauth_data 列
+- ✅ 20.3 后端: Alembic 迁移 002_add_oauth_to_ai_configs
+- ✅ 20.4 后端: oauth/encryption.py Fernet 加解密模块
+- ✅ 20.5 后端: oauth/base.py OAuthProvider 抽象基类 + OAuthTokens
+- ✅ 20.6 后端: oauth/openai.py OpenAI OAuth 2.0 + PKCE (Popup)
+- ✅ 20.7 后端: oauth/claude.py Claude OAuth (Code Paste) + Session Token
+- ✅ 20.8 后端: oauth/gemini.py Gemini/Google OAuth 2.0 + PKCE (Popup)
+- ✅ 20.9 后端: api/v1/ai_oauth.py OAuth 端点 (auth-url / callback / exchange / session-token / status)
+- ✅ 20.10 后端: oauth/token_refresh.py 自动 Token 刷新 (每 5 分钟 + 启动时)
+- ✅ 20.11 后端: Schema 更新 (AIConfigResponse 追加 auth_method/oauth_status + 新 OAuth schemas)
+- ✅ 20.12 前端: types/index.ts 追加 AuthMethod / OAuthStatus / OAuthAuthUrlResponse 等类型
+- ✅ 20.13 前端: services/aiOAuthApi.ts OAuth API 调用层
+- ✅ 20.14 前端: components/ai/AuthMethodSelector.tsx 认证方式选择器
+- ✅ 20.15 前端: components/ai/OAuthFlowModal.tsx OAuth 流程弹窗 (Popup/CodePaste/SessionToken)
+- ✅ 20.16 前端: AISettings.tsx 集成新组件 (添加 Provider → 选择认证方式 → 对应流程)
+- ✅ 20.17 代码质量审查: XSS 修复 / 竞态条件修复 / postMessage origin 验证 / 错误处理增强
+
+## Phase 21: RAG 配置模块独立化
+
+- ✅ 21.1 后端: RagConfig SQLAlchemy Model (rag_configs 表)
+- ✅ 21.2 后端: Alembic 迁移 003_add_rag_configs_table
+- ✅ 21.3 后端: RagConfig Schemas (Create/Update/Response/List/Test)
+- ✅ 21.4 后端: /api/v1/rag/configs CRUD + 连通性测试 API
+- ✅ 21.5 后端: RAG Provider 工厂函数适配新 rag_configs 表
+- ✅ 21.6 后端: 从 ai_config.py 移除旧 RAG 端点
+- ✅ 21.7 前端: ragConfigApi.ts RAG 配置 API 调用层
+- ✅ 21.8 前端: AISettings.tsx 适配新 RAG 配置接口
+- ✅ 21.9 前端: types/index.ts 新增 RAG 配置类型定义
+
+## Phase 22: Missed Keyword Filters (v0.8.0)
+
+- ✅ 22.1 后端: MissedKeywordFilter model + migration 004
+- ✅ 22.2 后端: keyword_matches_filter() utility
+- ✅ 22.3 后端: Scheduler integration (filter keywords during analysis)
+- ✅ 22.4 后端: Filter CRUD API (/missed-keyword-filters)
+- ✅ 22.5 前端: MissedKeywordFilter type + API functions
+- ✅ 22.6 前端: Collapsible filter panel in MissedKnowledge page
+
+## Phase 23: Catch All Match Mode (v0.8.0)
+
+- ✅ 23.1 后端: match_catch_all() in matcher.py
+- ✅ 23.2 后端: MatchModeType Literal updated
+- ✅ 23.3 前端: catch_all in MATCH_MODES + keyword auto-fill
+
+## Phase 24: Code Quality Overhaul (v0.8.0)
+
+- ✅ 24.1 Fix N+1 queries (conversations, users, faq rules)
+- ✅ 24.2 Fix tag.color server_default
+- ✅ 24.3 Fix message.faq_rule_id missing FK
+- ✅ 24.4 Add missing indexes (conversation, message)
+- ✅ 24.5 Add updated_at to messages + tags
+- ✅ 24.6 Fix mutable defaults in Pydantic schemas
+- ✅ 24.7 Fix deprecated datetime.utcnow()
+- ✅ 24.8 前端: Global ErrorBoundary
+- ✅ 24.9 前端: Fix empty catch blocks, type safety
+- ✅ 24.10 Migration 005 for all DB fixes
+
+## Phase 25: AI Usage Tracking & Cost Estimation (v0.8.1)
+
+- ✅ 25.1 后端: model_pricing.py 模型定价表 (25+ 模型, 模糊匹配)
+- ✅ 25.2 后端: AiUsageLog 扩展 prompt_tokens/completion_tokens/model/reply_mode 4 列
+- ✅ 25.3 后端: Alembic 迁移 006_extend_ai_usage_logs
+- ✅ 25.4 后端: log_ai_usage() 辅助函数 (ai_handler.py)
+- ✅ 25.5 后端: private.py 4 处 AI 调用点接入日志
+- ✅ 25.6 后端: group.py 4 处 AI 调用点接入日志
+- ✅ 25.7 后端: /ai/usage API 增强 (prompt/completion tokens + model 拆分)
+- ✅ 25.8 前端: AIUsageStats 类型更新
+- ✅ 25.9 前端: Usage Statistics 面板增强 (4 卡片 + model 列 + token 细分)
+- ✅ 25.10 修复: 聊天 5 秒轮询消息堆叠 (chatStore + ChatWindow scroll)
+
+### Phase 25.5: Keyword Filter Tab Refactor (v0.8.2)
+
+- ✅ 25.5.1 前端: 关键词过滤器从折叠面板改为独立 Tab
+
+### Phase 26: TMDB Movie Request System (v0.9.0)
+
+- ✅ 26.1 后端: TmdbApiKey / MovieRequest / MovieRequestUser / MediaLibraryConfig 4 个模型
+- ✅ 26.2 后端: TmdbClient 多 Key 轮换服务 (services/tmdb.py)
+- ✅ 26.3 后端: 可配置外部媒体库查询服务 (services/media_library.py, 支持 PostgreSQL / MySQL)
+- ✅ 26.4 后端: MovieRequestTrigger 自定义 Filter (私聊 /req|req, 群聊 @bot req)
+- ✅ 26.5 后端: movie_request bot handler (TMDB URL 解析, 去重, 封面卡片回复)
+- ✅ 26.6 后端: REST API (requests CRUD + tmdb-keys CRUD + media-library config)
+- ✅ 26.7 后端: Pydantic schemas (movie_request.py)
+- ✅ 26.8 后端: Alembic migration 007_add_movie_requests (4 张新表)
+- ✅ 26.9 后端: manager.py 注册 movie_request handler (优先级高于 private/group)
+- ✅ 26.10 前端: MovieRequests 页面 (统计卡片 + 状态筛选 + 封面表格 + Fulfill/Reject)
+- ✅ 26.11 前端: movieRequestApi.ts 服务层
+- ✅ 26.12 前端: Settings TMDB Keys Tab (卡片式 Key 管理)
+- ✅ 26.13 前端: Settings Media Library Database 配置区 (表单 + 连接测试)
+- ✅ 26.14 前端: Sidebar 添加 Requests 菜单 (Film 图标, admin+)
+- ✅ 26.15 前端: types/index.ts 添加 MovieRequest / TmdbApiKey / MediaLibraryConfig 类型
+
+---
+
+## 变更记录
+
+| 日期 | 变更内容 |
+|------|---------|
+| 2026-03-21 | 初始创建开发计划 |
+| 2026-03-21 | Phase 1-12, 13(部分), 14, 15(部分), 17 全部完成 |
+| 2026-03-22 | Phase 18 完成: Bot 分组 + FAQ 分组路由 (v0.5.0) |
+| 2026-03-23 | Phase 19 完成: RAG 模块化接入 Dify Knowledge API (v0.6.0) |
+| 2026-03-23 | Phase 20 完成: AI Provider OAuth 多认证 (v0.7.0) |
+| 2026-03-23 | Phase 21 完成: RAG 配置模块独立化 (v0.7.1) |
+| 2026-03-23 | Phase 22 完成: Missed Keyword Filters (v0.8.0) |
+| 2026-03-23 | Phase 23 完成: Catch All Match Mode (v0.8.0) |
+| 2026-03-23 | Phase 24 完成: Code Quality Overhaul (v0.8.0) |
+| 2026-03-23 | Phase 16.4/16.5 更新: N+1 查询修复 + 安全审计完成 |
+| 2026-03-23 | Phase 25 完成: AI Usage Tracking & Cost Estimation (v0.8.1) |
+| 2026-03-23 | Phase 25.5 完成: Keyword Filter Tab Refactor (v0.8.2) |
+| 2026-03-24 | Phase 26 完成: TMDB Movie Request System (v0.9.0) |
+| 2026-03-24 | Phase 27 完成: Plugin System + ACP Market (v1.0.0) |
+| 2026-03-27 | Phase 28 完成: OAuth Providers Overhaul (v1.0.1) |
+| 2026-03-27 | Phase 29 完成: Market Page Crash Fix + Settings Tab (v1.0.2) |
+| 2026-03-27 | Phase 30 完成: Market JWT Auth + Ed25519 Signature Verification (v1.0.3) |

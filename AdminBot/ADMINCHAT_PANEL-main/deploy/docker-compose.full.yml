@@ -1,0 +1,217 @@
+# ============================================================
+# ADMINCHAT Panel - Full Stack (All-in-One)
+# ============================================================
+#
+# Usage:
+#   cp .env.example .env && nano .env
+#   docker compose -f docker-compose.full.yml up -d
+#
+# Update ADMINCHAT only (keep DB data):
+#   docker compose -f docker-compose.full.yml pull backend frontend
+#   docker compose -f docker-compose.full.yml up -d backend frontend
+#
+# ============================================================
+# HOW TO CUSTOMIZE:
+#
+# [Reverse Proxy] Default: Nginx. Switch to Caddy:
+#   1. Comment out the "nginx" service
+#   2. Uncomment the "caddy" service
+#   Caddy auto-provisions HTTPS; Nginx needs manual certs.
+#
+# [Disable built-in proxy] Using APISIX / Traefik / own proxy:
+#   1. Comment out BOTH nginx AND caddy services
+#   2. Uncomment "ports" on backend and frontend services
+#   3. Configure your proxy to route (see deploy/README.md)
+#
+# [External PostgreSQL] Already have PG:
+#   1. Comment out the "postgres" service
+#   2. Remove "postgres" from backend depends_on
+#   3. Update DATABASE_URL in .env
+#
+# [External Redis] Already have Redis:
+#   1. Comment out the "redis" service
+#   2. Remove "redis" from backend depends_on
+#   3. Update REDIS_URL in .env
+#
+# [Volume Mode] Default: Named volumes (Docker-managed).
+#   Switch to bind mount: see [BIND MOUNT] comments below.
+#
+# [External Network] Connect to existing Docker network:
+#   See bottom of file for external_net config.
+# ============================================================
+
+services:
+
+  # ==================== APPLICATION ====================
+
+  backend:
+    image: ghcr.io/fxxkrlab/adminchat_panel-backend:${IMAGE_TAG:-latest}
+    container_name: adminchat-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file: .env
+    volumes:
+      # [NAMED VOLUME] Docker-managed (default)
+      - adminchat_media:/app/media
+      - adminchat_plugins:/data/plugins
+      # [BIND MOUNT] Uncomment below, comment above
+      # - ./data/media:/app/media
+      # - ./data/plugins:/data/plugins
+    # [NO PROXY] Uncomment to expose port directly
+    # ports:
+    #   - "${BACKEND_PORT:-8000}:8000"
+    networks:
+      - adminchat
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  frontend:
+    image: ghcr.io/fxxkrlab/adminchat_panel-frontend:${IMAGE_TAG:-latest}
+    container_name: adminchat-frontend
+    restart: unless-stopped
+    # [NO PROXY] Uncomment to expose port directly
+    # ports:
+    #   - "${FRONTEND_PORT:-3000}:80"
+    networks:
+      - adminchat
+
+  # ==================== DATABASE ====================
+  # [EXTERNAL PG] Comment out this entire block if using external PostgreSQL
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: adminchat-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-adminchat}
+      POSTGRES_USER: ${POSTGRES_USER:-adminchat}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    volumes:
+      # [NAMED VOLUME] Docker-managed (default)
+      - adminchat_pgdata:/var/lib/postgresql/data
+      # [BIND MOUNT] Uncomment below, comment above
+      # - ./data/postgres:/var/lib/postgresql/data
+    # Uncomment to allow external DB tools to connect
+    # ports:
+    #   - "5432:5432"
+    networks:
+      - adminchat
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-adminchat}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==================== CACHE ====================
+  # [EXTERNAL REDIS] Comment out this entire block if using external Redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: adminchat-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      # [NAMED VOLUME] Docker-managed (default)
+      - adminchat_redisdata:/data
+      # [BIND MOUNT] Uncomment below, comment above
+      # - ./data/redis:/data
+    networks:
+      - adminchat
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==================== REVERSE PROXY ====================
+  # Choose ONE: Nginx OR Caddy. Or disable both for own proxy.
+
+  # ---- OPTION A: Nginx (default) ----
+  # Manual HTTPS: provide your own certs
+  nginx:
+    image: nginx:alpine
+    container_name: adminchat-nginx
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      # - "${HTTPS_PORT:-443}:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # [HTTPS] Uncomment and provide cert files
+      # - ./certs/fullchain.pem:/etc/nginx/ssl/fullchain.pem:ro
+      # - ./certs/privkey.pem:/etc/nginx/ssl/privkey.pem:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - adminchat
+
+  # ---- OPTION B: Caddy (auto HTTPS) ----
+  # Uncomment below, comment out nginx above.
+  # Set SITE_ADDRESS in .env to your domain for auto HTTPS.
+  #
+  # caddy:
+  #   image: caddy:2-alpine
+  #   container_name: adminchat-caddy
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${HTTP_PORT:-80}:80"
+  #     - "${HTTPS_PORT:-443}:443"
+  #     - "443:443/udp"  # HTTP/3
+  #   volumes:
+  #     - ./Caddyfile:/etc/caddy/Caddyfile:ro
+  #     # [NAMED VOLUME]
+  #     - adminchat_caddy_data:/data
+  #     - adminchat_caddy_config:/config
+  #     # [BIND MOUNT] Uncomment below, comment above
+  #     # - ./data/caddy/data:/data
+  #     # - ./data/caddy/config:/config
+  #   environment:
+  #     - SITE_ADDRESS=${SITE_ADDRESS:-localhost}
+  #   depends_on:
+  #     - backend
+  #     - frontend
+  #   networks:
+  #     - adminchat
+
+# ==================== VOLUMES ====================
+# [NAMED VOLUME] Docker-managed. Use `docker volume ls` to list.
+# To switch to bind mount: comment out volumes here,
+# use ./data/xxx paths in service definitions above.
+
+volumes:
+  adminchat_pgdata:
+    name: adminchat_pgdata
+  adminchat_redisdata:
+    name: adminchat_redisdata
+  adminchat_media:
+    name: adminchat_media
+  adminchat_plugins:
+    name: adminchat_plugins
+  # Uncomment if using Caddy
+  # adminchat_caddy_data:
+  #   name: adminchat_caddy_data
+  # adminchat_caddy_config:
+  #   name: adminchat_caddy_config
+
+# ==================== NETWORKS ====================
+networks:
+  adminchat:
+    driver: bridge
+    name: adminchat
+  # [EXTERNAL NETWORK] Connect to existing Docker network
+  # 1. Uncomment below
+  # 2. Add "external_net" to the networks list of services that need it
+  # 3. Change "your_network_name" to your actual network name
+  #
+  # external_net:
+  #   external: true
+  #   name: your_network_name

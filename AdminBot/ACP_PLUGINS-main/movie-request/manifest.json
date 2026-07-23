@@ -1,0 +1,93 @@
+{
+  "id": "movie-request",
+  "name": "TMDB Movie Request",
+  "version": "1.0.26",
+  "description": "TMDB movie/TV request system with multi-key rotation and media library check",
+  "author": {
+    "name": "NovaHelix",
+    "email": "dev@novahelix.com"
+  },
+  "license": "GPL-3.0",
+  "repository": "https://github.com/fxxkrlab/ACP_PLUGINS",
+  "icon": "Film",
+  "color": "#00D9FF",
+  "categories": ["media", "automation"],
+  "tags": ["tmdb", "movie", "tv", "request"],
+
+  "compatibility": {
+    "min_panel_version": "1.0.8"
+  },
+
+  "capabilities": {
+    "database": true,
+    "bot_handler": true,
+    "api_routes": true,
+    "frontend_pages": true,
+    "settings_tab": true
+  },
+
+  "permissions": {
+    "core_api_scopes": ["users:read", "bots:read"],
+    "bot_events": ["message", "callback_query"]
+  },
+
+  "entry_point": "backend/plugin.py",
+  "bot_handler_priority": 30,
+
+  "frontend": {
+    "remote_entry": "frontend/dist/remoteEntry.js",
+    "sidebar": [
+      {
+        "path": "/p/movie-request",
+        "label": "Requests",
+        "icon": "Film",
+        "minRole": "admin",
+        "position": "after:bots"
+      }
+    ],
+    "settings_tabs": [
+      {
+        "key": "tmdb",
+        "label": "Request Config",
+        "module": "./settings/TmdbTab"
+      }
+    ]
+  },
+
+  "config_schema": {
+    "type": "object",
+    "properties": {
+      "tmdb_language": {
+        "type": "string",
+        "default": "zh-CN",
+        "title": "TMDB API Language"
+      },
+      "fulfill_webhook_url": {
+        "type": "string",
+        "default": "",
+        "title": "Fulfill Webhook URL",
+        "description": "When a request is marked as fulfilled (✓), POST the request data to this URL. Leave empty to disable. Query-param auth can be appended directly (e.g. ?token=xxx)."
+      },
+      "fulfill_webhook_header_name": {
+        "type": "string",
+        "default": "",
+        "title": "Webhook Auth Header Name",
+        "description": "Auth header name, e.g. Authorization, X-Api-Key, X-Token. Leave empty for no auth header."
+      },
+      "fulfill_webhook_header_value": {
+        "type": "string",
+        "default": "",
+        "title": "Webhook Auth Header Value",
+        "description": "Auth header value, e.g. Bearer eyJhbGci... or my-secret-key."
+      }
+    }
+  },
+
+  "uninstall": {
+    "confirm_message": "This will delete all movie request data including request history and TMDB API keys.",
+    "options": {
+      "keep_data": { "label": "Keep database tables", "default": true },
+      "drop_tables": { "label": "Delete all plugin data permanently", "default": false }
+    }
+  }
+}

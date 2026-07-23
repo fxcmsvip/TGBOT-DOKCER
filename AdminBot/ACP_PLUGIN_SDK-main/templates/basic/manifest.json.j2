@@ -1,0 +1,29 @@
+{
+  "id": {{ plugin_id | tojson }},
+  "name": {{ plugin_name | tojson }},
+  "version": "0.1.0",
+  "description": {{ description | tojson }},
+  "author": {
+    "name": {{ author_name | tojson }},
+    "email": {{ author_email | tojson }}
+  },
+  "license": "MIT",
+  "entry_point": "backend/plugin.py",
+  "min_panel_version": "0.3.0",
+  "capabilities": {
+    "database": false,
+    "bot_handler": false,
+    "api_routes": true,
+    "frontend_pages": {{ "true" if with_frontend else "false" }},
+    "settings_tab": false
+  },
+  "permissions": {
+    "core_api_scopes": [],
+    "bot_events": []
+  }{% if with_frontend %},
+  "frontend": {
+    "remote_entry": "frontend/dist/remoteEntry.js",
+    "sidebar": [],
+    "settings_tabs": []
+  }{% endif %}
+}
