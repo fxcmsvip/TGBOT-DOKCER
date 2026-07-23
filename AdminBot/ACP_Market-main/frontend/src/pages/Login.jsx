@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Boxes, CheckCircle, Eye, EyeOff } from 'lucide-react';
 import Modal from '../components/Modal';
 import useAuthStore from '../stores/authStore';
@@ -7,6 +8,7 @@ import { APP_VERSION } from '../constants/version';
 import api from '../api/client';
 
 export default function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { login, register } = useAuthStore();
 
@@ -28,9 +30,9 @@ export default function Login() {
     setForgotMessage('');
     try {
       await api.post('/auth/forgot-password', { email: forgotEmail });
-      setForgotMessage('If that email exists, a reset link has been sent.');
+      setForgotMessage(t('login.resetPasswordSent'));
     } catch {
-      setForgotMessage('Something went wrong. Please try again.');
+      setForgotMessage(t('login.resetPasswordError'));
     } finally {
       setForgotLoading(false);
     }
@@ -82,11 +84,7 @@ export default function Login() {
     }
   };
 
-  const features = [
-    'One-click plugin installation',
-    'Secure code review process',
-    'Built-in monetization with Stripe',
-  ];
+  const features = t('login.features', { returnObjects: true });
 
   return (
     <div className="flex min-h-screen">
@@ -144,12 +142,12 @@ export default function Login() {
           {/* Header */}
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-text-primary">
-              {mode === 'login' ? 'Welcome Back' : 'Create Account'}
+              {mode === 'login' ? t('login.signIn') : t('login.signUp')}
             </h2>
             <p className="text-text-secondary mt-1">
               {mode === 'login'
-                ? 'Sign in to your developer account'
-                : 'Create your developer account to get started'}
+                ? t('login.welcomeBack')
+                : t('login.createAccount')}
             </p>
           </div>
 
@@ -167,7 +165,7 @@ export default function Login() {
                 {/* Username */}
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-1.5">
-                    Username
+                    {t('login.username')}
                   </label>
                   <input
                     type="text"
@@ -182,7 +180,7 @@ export default function Login() {
                 {/* Display Name */}
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-1.5">
-                    Display Name
+                    {t('login.displayName')}
                   </label>
                   <input
                     type="text"
@@ -199,7 +197,7 @@ export default function Login() {
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-text-primary mb-1.5">
-                Email
+                {t('login.email')}
               </label>
               <input
                 type="email"
@@ -214,7 +212,7 @@ export default function Login() {
             {/* Password */}
             <div>
               <label className="block text-sm font-medium text-text-primary mb-1.5">
-                Password
+                {t('login.password')}
               </label>
               <div className="relative">
                 <input
@@ -250,7 +248,7 @@ export default function Login() {
                     className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                   />
                   <span className="text-sm text-text-secondary">
-                    Remember me
+                    {t('login.rememberMe')}
                   </span>
                 </label>
                 <button
@@ -262,7 +260,7 @@ export default function Login() {
                   }}
                   className="text-sm text-primary hover:underline"
                 >
-                  Forgot password?
+                  {t('login.forgotPassword')}
                 </button>
               </div>
             )}
@@ -275,11 +273,11 @@ export default function Login() {
             >
               {loading
                 ? mode === 'login'
-                  ? 'Signing In...'
-                  : 'Creating Account...'
+                  ? t('login.signingIn')
+                  : t('login.creatingAccount')
                 : mode === 'login'
-                  ? 'Sign In'
-                  : 'Create Account'}
+                  ? t('login.signIn')
+                  : t('login.signUp')}
             </button>
           </form>
 
@@ -297,8 +295,8 @@ export default function Login() {
             className={`text-center text-sm text-text-secondary ${mode === 'register' ? 'mt-6' : ''}`}
           >
             {mode === 'login'
-              ? "Don't have an account? "
-              : 'Already have an account? '}
+              ? t('login.noAccount') + ' '
+              : t('login.hasAccount') + ' '}
             <button
               type="button"
               onClick={() =>

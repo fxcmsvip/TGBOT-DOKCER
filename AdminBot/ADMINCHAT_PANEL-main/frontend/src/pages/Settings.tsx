@@ -1,23 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Save, Clock, Shield, Database, Settings as SettingsIcon, Loader2, RefreshCw, ExternalLink, LogIn, Key, Unplug, Info, CheckCircle2 } from 'lucide-react';
+import { Save, Clock, Shield, Database, Settings as SettingsIcon, Loader2, RefreshCw, ExternalLink, LogIn, Key, Unplug, Info, CheckCircle2, Globe } from 'lucide-react';
 import Header from '../components/layout/Header';
 import { getSettings, updateSettings, getVersionInfo } from '../services/settingsApi';
 import { getMarketStatus, marketConnect, marketDisconnect } from '../services/marketApi';
 import type { MarketStatus } from '../services/marketApi';
 import { useActivePlugins } from '../plugins/useInstalledPlugins';
 import { PluginLoader } from '../plugins/PluginLoader';
+import { useLangStore, type Lang } from '../stores/langStore';
 import type { SettingItem } from '../types';
 
-// ---- Tab definitions ----
-const TABS: { key: string; label: string }[] = [
-  { key: 'admins', label: 'Admins' },
-  { key: 'system', label: 'System' },
-  { key: 'ai', label: 'AI Config' },
-  { key: 'market', label: 'Market' },
-  { key: 'permissions', label: 'Permissions' },
-];
+// ---- Tab definitions (keys for i18n) ----
+const TAB_KEYS = ['admins', 'system', 'ai', 'market', 'permissions'] as const;
 
 // ---- Helpers ----
 function getSettingValue(items: SettingItem[], key: string, fallback: unknown = ''): unknown {
@@ -424,11 +420,13 @@ function VersionInfoCard() {
 }
 
 export default function Settings() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<string>('admins');
   const [localSettings, setLocalSettings] = useState<Record<string, unknown>>({});
   const { data: activePlugins } = useActivePlugins();
+  const { lang, setLang } = useLangStore();
 
   // Build plugin settings tabs
   const pluginSettingsTabs = (activePlugins || []).flatMap(p =>
@@ -456,7 +454,8 @@ export default function Settings() {
     }
   }, [location.state, pluginSettingsTabs]);
 
-  // Merge with core TABS
+  // Build tabs with i18n
+  const TABS = TAB_KEYS.map(key => ({ key, label: t(`settings.tabs.${key}`) }));
   const allTabs = [...TABS, ...pluginSettingsTabs.map(t => ({ key: t.key, label: t.label }))];
   const [hasChanges, setHasChanges] = useState(false);
 
@@ -502,7 +501,7 @@ export default function Settings() {
 
   return (
     <div className="flex flex-col h-full">
-      <Header title="System Settings" />
+      <Header title={t('settings.title')} />
       <div className="flex-1 px-8 py-6 overflow-auto">
         {/* Tab navigation */}
         <div className="flex items-center gap-6 mb-8 border-b border-border-subtle">
@@ -605,10 +604,33 @@ export default function Settings() {
 
             {/* System tab */}
             {activeTab === 'system' && (
-              <div className="bg-bg-card border border-border rounded-[10px] overflow-hidden">
-                <div className="px-5 py-4 border-b border-border">
-                  <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">General System Settings</h3>
+              <div className="space-y-6">
+                {/* Language Settings */}
+                <div className="bg-bg-card border border-border rounded-[10px] overflow-hidden">
+                  <div className="px-5 py-4 border-b border-border">
+                    <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">{t('settings.language.title')}</h3>
+                    <p className="text-xs text-text-muted mt-1">{t('settings.language.desc')}</p>
+                  </div>
+                  <div className="p-5">
+                    <div className="flex items-center gap-3">
+                      <Globe size={18} className="text-accent" />
+                      <select
+                        value={lang}
+                        onChange={(e) => setLang(e.target.value as Lang)}
+                        className="h-10 px-3.5 bg-bg-elevated border border-border rounded-lg text-sm text-text-primary focus:outline-none focus:border-accent transition-colors min-w-[180px]"
+                      >
+                        <option value="system">{t('settings.language.systemDefault')}</option>
+                        <option value="zh-CN">{t('settings.language.zhCN')}</option>
+                        <option value="en-US">{t('settings.language.enUS')}</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
+
+                <div className="bg-bg-card border border-border rounded-[10px] overflow-hidden">
+                  <div className="px-5 py-4 border-b border-border">
+                    <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">{t('settings.system.siteName')}</h3>
+                  </div>
                 <SettingCard
                   label="Auto-Assign Conversations"
                   description="Automatically assign new conversations to available agents"
@@ -645,6 +667,7 @@ export default function Settings() {
                     <option value="zh-TW">Chinese (Traditional)</option>
                   </select>
                 </SettingCard>
+                </div>
               </div>
             )}
 

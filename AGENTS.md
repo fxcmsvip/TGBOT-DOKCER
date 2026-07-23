@@ -6,11 +6,20 @@ AdminBot 是一个多子项目工作区，核心产品为 **ADMINCHAT Panel** �
 
 ## 技术栈
 
-- **前端**: React 19 + Vite 8 + TypeScript 5.9 + Tailwind CSS v4 + Zustand + TanStack Query
+- **前端**: React 19 + Vite 8 + TypeScript 5.9 + Tailwind CSS v4 + Zustand + TanStack Query + i18next
 - **后端**: Python 3.12 + FastAPI + SQLAlchemy 2.0 (async) + asyncpg + aiogram 3 (Telegram Bot)
 - **数据库**: PostgreSQL 16 + Redis 7
 - **部署**: Docker Compose + GHCR
 - **包管理**: pnpm (前端), uv (Python)
+
+## 国际化 (i18n)
+
+两个前端项目均已集成 i18next：
+- **ADMINCHAT_PANEL**: `frontend/src/i18n/` (zh-CN, en-US)
+- **ACP_Market**: `frontend/src/i18n/` (zh-CN, en-US)
+- 默认语言跟随系统 (`i18next-browser-languagedetector`)
+- 语言切换在 Settings 页面生效，存储于 localStorage
+- 翻译键结构：`common.*`, `nav.*`, `login.*`, `dashboard.*`, `botPool.*`, `settings.*` 等
 
 ## 目录结构
 
@@ -114,6 +123,12 @@ AdminBot 是一个多子项目工作区，核心产品为 **ADMINCHAT Panel** �
 - Pydantic v2 用于 schema 验证
 - API 前缀: `/api/v1`
 - 许可证: GPL-3.0，双重版权 NovaHelix & SAKAKIBARA
+
+## 安全修复记录
+
+- **Bot Token 加密存库**: 使用 Fernet 加密存储，新增 `token_hash` 字段用于去重查询
+- **Fernet 密钥日志泄露**: 自动生成密钥时不再打印到日志，仅提示配置环境变量
+- **数据库迁移**: `006_encrypt_bot_tokens.py` 处理现有明文 token 加密
 
 ## 常见问题和预防
 

@@ -1,23 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Boxes, LayoutDashboard, Upload, CreditCard, Key, ClipboardCheck, Shield } from 'lucide-react';
 import useAuthStore from '../../stores/authStore';
 import { checkRole } from '../../constants/roles';
 import { APP_VERSION } from '../../constants/version';
-
-const devLinks = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/plugins/submit', icon: Upload, label: 'Submit Plugin' },
-  { to: '/api-keys', icon: Key, label: 'API Keys' },
-  { to: '/revenue', icon: CreditCard, label: 'Revenue' },
-];
-
-const reviewerLinks = [
-  { to: '/review', icon: ClipboardCheck, label: 'Review Queue' },
-];
-
-const adminLinks = [
-  { to: '/admin', icon: Shield, label: 'Admin Panel' },
-];
 
 function SidebarLink({ to, icon: Icon, label }) {
   const { pathname } = useLocation();
@@ -37,9 +23,25 @@ function SidebarLink({ to, icon: Icon, label }) {
 }
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const userRole = useAuthStore((s) => s.user?.role);
   const isReviewer = userRole && checkRole(userRole, 'reviewer');
   const isAdmin = userRole && checkRole(userRole, 'admin');
+
+  const devLinks = [
+    { to: '/dashboard', icon: LayoutDashboard, label: t('nav.dashboard') },
+    { to: '/plugins/submit', icon: Upload, label: t('nav.submitPlugin') },
+    { to: '/api-keys', icon: Key, label: t('nav.apiKeys') },
+    { to: '/revenue', icon: CreditCard, label: t('nav.revenue') },
+  ];
+
+  const reviewerLinks = [
+    { to: '/review', icon: ClipboardCheck, label: t('nav.reviewQueue') },
+  ];
+
+  const adminLinks = [
+    { to: '/admin', icon: Shield, label: t('nav.adminPanel') },
+  ];
 
   return (
     <aside className="w-60 bg-sidebar flex flex-col shrink-0 h-full">
@@ -49,14 +51,14 @@ export default function Sidebar() {
       </Link>
       <div className="h-px bg-white/10" />
       <nav className="flex flex-col gap-0.5 px-3 py-4">
-        <span className="text-[10px] font-semibold text-slate-500 tracking-widest px-3 py-2">MAIN</span>
+        <span className="text-[10px] font-semibold text-slate-500 tracking-widest px-3 py-2">{t('nav.main')}</span>
         {devLinks.map((link) => (
           <SidebarLink key={link.to} {...link} />
         ))}
 
         {isReviewer && (
           <>
-            <span className="text-[10px] font-semibold text-slate-500 tracking-widest px-3 py-2 mt-4">REVIEW</span>
+            <span className="text-[10px] font-semibold text-slate-500 tracking-widest px-3 py-2 mt-4">{t('nav.review')}</span>
             {reviewerLinks.map((link) => (
               <SidebarLink key={link.to} {...link} />
             ))}
@@ -65,7 +67,7 @@ export default function Sidebar() {
 
         {isAdmin && (
           <>
-            <span className="text-[10px] font-semibold text-slate-500 tracking-widest px-3 py-2 mt-4">ADMIN</span>
+            <span className="text-[10px] font-semibold text-slate-500 tracking-widest px-3 py-2 mt-4">{t('nav.admin')}</span>
             {adminLinks.map((link) => (
               <SidebarLink key={link.to} {...link} />
             ))}

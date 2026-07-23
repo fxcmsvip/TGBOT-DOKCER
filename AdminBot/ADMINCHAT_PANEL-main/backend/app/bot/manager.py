@@ -23,6 +23,7 @@ from app.bot.handlers.private import router as private_router
 from app.bot.handlers.group import router as group_router
 from app.bot.handlers.commands import router as commands_router
 from app.bot.dispatcher import register_bot_instance, unregister_bot_instance
+from app.oauth.encryption import decrypt_bot_token
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +81,8 @@ class BotManager:
 
         for bot_record in bots:
             try:
-                await self._start_single_bot(bot_record.id, bot_record.token)
+                plain_token = decrypt_bot_token(bot_record.token)
+                await self._start_single_bot(bot_record.id, plain_token)
             except Exception:
                 logger.exception(
                     "Failed to start bot id=%s (%s)",

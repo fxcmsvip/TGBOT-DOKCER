@@ -38,6 +38,8 @@ from app.bot.manager import bot_manager
 from app.bot.rate_limiter import is_rate_limited
 from app.services.audit import log_action
 from app.services.realtime import publish_bot_status
+from app.oauth.encryption import encrypt_bot_token, decrypt_bot_token
+from app.utils.security import hash_token
 
 logger = logging.getLogger(__name__)
 
@@ -87,8 +89,9 @@ async def create_bot(
     Add a new bot to the pool.
     Validates the token by calling Telegram getMe before saving.
     """
-    # Check for duplicate token
-    result = await db.execute(select(Bot).where(Bot.token == body.token))
+    # Check for duplicate token (via hash)
+    token_hash = hash_token(body.token)
+    result = await db.execute(select(Bot).where(Bot.token_hash == token_hash))
     if result.scalar_one_or_none() is not None:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -115,9 +118,10 @@ async def create_bot(
         if temp_bot:
             await temp_bot.session.close()
 
-    # Save to DB
+    # Save to DB (token encrypted, hash for dedup)
     bot_record = Bot(
-        token=body.token,
+        token=encrypt_bot_token(body.token),
+        token_hash=token_hash,
         bot_username=me.username,
         bot_id=me.id,
         display_name=body.display_name or me.first_name,
@@ -176,7 +180,7 @@ async def update_bot(
     if "is_active" in update_data:
         if bot_record.is_active and not was_active:
             try:
-                await bot_manager.add_bot(bot_record.id, bot_record.token)
+                await bot_manager.add_bot(bot_record.id, decrypt_bot_token(bot_record.token))
             except Exception:
                 logger.exception("Failed to activate bot %s", bot_id)
         elif not bot_record.is_active and was_active:
@@ -236,7 +240,7 @@ async def restart_bot(
         if bot_id in bot_manager.active_bot_ids:
             await bot_manager.restart_bot(bot_id)
         else:
-            await bot_manager.add_bot(bot_id, bot_record.token)
+            await bot_manager.add_bot(bot_id, decrypt_bot_token(bot_record.token))
     except Exception as exc:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

@@ -1,0 +1,154 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "search": "Search",
+    "submit": "Submit",
+    "create": "Create",
+    "update": "Update",
+    "back": "Back",
+    "next": "Next",
+    "yes": "Yes",
+    "no": "No",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "actions": "Actions",
+    "status": "Status",
+    "description": "Description",
+    "name": "Name",
+    "version": "Version",
+    "author": "Author",
+    "download": "Download",
+    "install": "Install",
+    "installed": "Installed",
+    "uninstall": "Uninstall",
+    "copy": "Copy",
+    "copied": "Copied",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "submitPlugin": "Submit Plugin",
+    "apiKeys": "API Keys",
+    "revenue": "Revenue",
+    "reviewQueue": "Review Queue",
+    "adminPanel": "Admin Panel",
+    "main": "MAIN",
+    "review": "REVIEW",
+    "admin": "ADMIN",
+    "marketplace": "Marketplace",
+    "docs": "Docs"
+  },
+  "login": {
+    "title": "ACP Market",
+    "subtitle": "Plugin Marketplace",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "displayName": "Display Name",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "features": [
+      "One-click plugin installation",
+      "Secure code review process",
+      "Built-in monetization with Stripe"
+    ],
+    "resetPasswordSent": "If that email exists, a reset link has been sent.",
+    "resetPasswordError": "Something went wrong. Please try again."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your plugins",
+    "totalPlugins": "Total Plugins",
+    "totalDownloads": "Total Downloads",
+    "totalRevenue": "Total Revenue",
+    "pendingReview": "Pending Review",
+    "recentPlugins": "Recent Plugins",
+    "noPlugins": "No plugins yet",
+    "createFirst": "Create your first plugin"
+  },
+  "plugins": {
+    "submit": {
+      "title": "Submit Plugin",
+      "subtitle": "Share your plugin with the community",
+      "pluginName": "Plugin Name",
+      "pluginNamePlaceholder": "Enter plugin name",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe your plugin",
+      "version": "Version",
+      "versionPlaceholder": "e.g. 1.0.0",
+      "price": "Price (USD)",
+      "pricePlaceholder": "0 for free",
+      "repositoryUrl": "Repository URL",
+      "repositoryUrlPlaceholder": "https://github.com/...",
+      "submitBtn": "Submit for Review",
+      "submitting": "Submitting..."
+    },
+    "detail": {
+      "downloads": "Downloads",
+      "publishedAt": "Published",
+      "installBtn": "Install",
+      "uninstallBtn": "Uninstall"
+    }
+  },
+  "apiKeys": {
+    "title": "API Keys",
+    "subtitle": "Manage your API keys",
+    "createNew": "Create New Key",
+    "keyName": "Key Name",
+    "keyNamePlaceholder": "Enter key purpose",
+    "scopes": "Scopes",
+    "createdAt": "Created",
+    "lastUsed": "Last Used",
+    "never": "Never",
+    "deleteConfirm": "Are you sure you want to delete this key?",
+    "copyWarning": "Copy your API key now. For security, we won't show it again."
+  },
+  "revenue": {
+    "title": "Revenue",
+    "subtitle": "Your earnings overview",
+    "totalEarnings": "Total Earnings",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "payoutHistory": "Payout History",
+    "noPayouts": "No payouts yet"
+  },
+  "review": {
+    "title": "Review Queue",
+    "subtitle": "Plugins pending review",
+    "approve": "Approve",
+    "reject": "Reject",
+    "noPending": "No plugins pending review"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "subtitle": "System administration",
+    "users": "Users",
+    "plugins": "Plugins",
+    "settings": "Settings"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageDesc": "Choose interface language",
+    "systemDefault": "System Default",
+    "zhCN": "简体中文",
+    "enUS": "English"
+  },
+  "theme": {
+    "light": "Light Mode",
+    "dark": "Dark Mode"
+  }
+}

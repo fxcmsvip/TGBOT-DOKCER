@@ -1,5 +1,6 @@
 import { memo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   LayoutDashboard,
   MessageSquare,
@@ -27,7 +28,7 @@ import type { Role } from '../../types';
 interface NavItem {
   to: string;
   icon: React.ReactNode;
-  label: string;
+  labelKey: string;
   minRole: Role;
 }
 
@@ -38,22 +39,23 @@ const roleLevel: Record<Role, number> = {
 };
 
 const navItems: NavItem[] = [
-  { to: '/', icon: <LayoutDashboard size={20} />, label: 'Dashboard', minRole: 'agent' },
-  { to: '/chat', icon: <MessageSquare size={20} />, label: 'Chat', minRole: 'agent' },
-  { to: '/users', icon: <Users size={20} />, label: 'Users', minRole: 'agent' },
-  { to: '/blacklist', icon: <Ban size={20} />, label: 'Blacklist', minRole: 'agent' },
-  { to: '/bots', icon: <Bot size={20} />, label: 'Bots', minRole: 'admin' },
-  { to: '/faq', icon: <HelpCircle size={20} />, label: 'FAQ', minRole: 'admin' },
-  { to: '/faq/ranking', icon: <BarChart3 size={20} />, label: 'Ranking', minRole: 'agent' },
-  { to: '/faq/missed', icon: <BookOpen size={20} />, label: 'Missed', minRole: 'admin' },
-  { to: '/ai', icon: <BrainCircuit size={20} />, label: 'AI', minRole: 'super_admin' },
-  { to: '/admins', icon: <ShieldCheck size={20} />, label: 'Admins', minRole: 'super_admin' },
-  { to: '/audit-logs', icon: <FileText size={20} />, label: 'Audit Log', minRole: 'super_admin' },
-  { to: '/settings', icon: <Settings size={20} />, label: 'Settings', minRole: 'super_admin' },
-  { to: '/market', icon: <Store size={20} />, label: 'Market', minRole: 'admin' },
+  { to: '/', icon: <LayoutDashboard size={20} />, labelKey: 'nav.dashboard', minRole: 'agent' },
+  { to: '/chat', icon: <MessageSquare size={20} />, labelKey: 'nav.chat', minRole: 'agent' },
+  { to: '/users', icon: <Users size={20} />, labelKey: 'nav.users', minRole: 'agent' },
+  { to: '/blacklist', icon: <Ban size={20} />, labelKey: 'nav.blacklist', minRole: 'agent' },
+  { to: '/bots', icon: <Bot size={20} />, labelKey: 'nav.bots', minRole: 'admin' },
+  { to: '/faq', icon: <HelpCircle size={20} />, labelKey: 'nav.faq', minRole: 'admin' },
+  { to: '/faq/ranking', icon: <BarChart3 size={20} />, labelKey: 'nav.ranking', minRole: 'agent' },
+  { to: '/faq/missed', icon: <BookOpen size={20} />, labelKey: 'nav.missed', minRole: 'admin' },
+  { to: '/ai', icon: <BrainCircuit size={20} />, labelKey: 'nav.ai', minRole: 'super_admin' },
+  { to: '/admins', icon: <ShieldCheck size={20} />, labelKey: 'nav.admins', minRole: 'super_admin' },
+  { to: '/audit-logs', icon: <FileText size={20} />, labelKey: 'nav.auditLog', minRole: 'super_admin' },
+  { to: '/settings', icon: <Settings size={20} />, labelKey: 'nav.settings', minRole: 'super_admin' },
+  { to: '/market', icon: <Store size={20} />, labelKey: 'nav.market', minRole: 'admin' },
 ];
 
 function SidebarInner() {
+  const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const logout = useAuthStore((s) => s.logout);
   const userRole = user?.role ?? 'agent';
@@ -67,7 +69,7 @@ function SidebarInner() {
     .flatMap(p => (p.manifest.frontend?.sidebar || []).map(item => ({
       to: item.path,
       icon: (() => { const Icon = resolveIcon(item.icon); return <Icon size={20} />; })(),
-      label: item.label,
+      labelKey: item.label, // Plugin labels are used as-is
       minRole: item.minRole as Role,
     })));
 
@@ -124,7 +126,7 @@ function SidebarInner() {
                     expanded ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'
                   }`}
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                 </span>
               </>
             )}
@@ -139,8 +141,8 @@ function SidebarInner() {
           className={`flex items-center gap-3 h-11 rounded-lg text-text-muted hover:text-accent hover:bg-accent/10 transition-colors ${
             expanded ? 'px-3' : 'justify-center'
           }`}
-          title={theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'}
-          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={theme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
+          aria-label={theme === 'dark' ? t('theme.switchToLight') : t('theme.switchToDark')}
         >
           {theme === 'dark' ? <Sun size={20} className="shrink-0" /> : <Moon size={20} className="shrink-0" />}
           <span
@@ -148,7 +150,7 @@ function SidebarInner() {
               expanded ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'
             }`}
           >
-            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+            {theme === 'dark' ? t('theme.light') : t('theme.dark')}
           </span>
         </button>
         <button
@@ -156,7 +158,7 @@ function SidebarInner() {
           className={`flex items-center gap-3 h-11 rounded-lg text-text-muted hover:text-red hover:bg-red/10 transition-colors ${
             expanded ? 'px-3' : 'justify-center'
           }`}
-          title="Logout"
+          title={t('common.logout')}
         >
           <LogOut size={20} className="shrink-0" />
           <span
@@ -164,7 +166,7 @@ function SidebarInner() {
               expanded ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'
             }`}
           >
-            Logout
+            {t('common.logout')}
           </span>
         </button>
         <div className="flex flex-col items-center px-1 select-none">

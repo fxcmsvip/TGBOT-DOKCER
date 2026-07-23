@@ -7,6 +7,12 @@ from jose import JWTError, jwt
 from app.config import settings
 
 
+def hash_token(token: str) -> str:
+    """SHA-256 hash of a token for deduplication (not for passwords)."""
+    import hashlib
+    return hashlib.sha256(token.encode()).hexdigest()
+
+
 def hash_password(password: str) -> str:
     """Hash a plaintext password using bcrypt directly."""
     password_bytes = password.encode("utf-8")[:72]  # bcrypt max 72 bytes

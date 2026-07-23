@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { Plus, X, Users, ChevronDown, ChevronRight } from 'lucide-react';
 import Header from '../components/layout/Header';
 import {
@@ -11,11 +12,12 @@ import type { Bot, BotGroup } from '../types';
 
 // ---- Status badge component ----
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useTranslation();
   const map: Record<string, { label: string; dotColor: string; textColor: string; bgColor: string }> = {
-    online: { label: 'ONLINE', dotColor: 'bg-green', textColor: 'text-green', bgColor: 'bg-green/10' },
-    rate_limited: { label: 'LIMITED', dotColor: 'bg-orange', textColor: 'text-orange', bgColor: 'bg-orange/10' },
-    offline: { label: 'OFFLINE', dotColor: 'bg-red', textColor: 'text-red', bgColor: 'bg-red/10' },
-    error: { label: 'ERROR', dotColor: 'bg-red', textColor: 'text-red', bgColor: 'bg-red/10' },
+    online: { label: t('status.online'), dotColor: 'bg-green', textColor: 'text-green', bgColor: 'bg-green/10' },
+    rate_limited: { label: t('status.limited'), dotColor: 'bg-orange', textColor: 'text-orange', bgColor: 'bg-orange/10' },
+    offline: { label: t('status.offline'), dotColor: 'bg-red', textColor: 'text-red', bgColor: 'bg-red/10' },
+    error: { label: t('status.error'), dotColor: 'bg-red', textColor: 'text-red', bgColor: 'bg-red/10' },
   };
   const s = map[status] || map.offline;
   return (
@@ -42,6 +44,7 @@ function PriorityBar({ value, max = 10 }: { value: number; max?: number }) {
 
 // ---- Bot row ----
 function BotRow({ bot, onEdit, onRestart, onDelete }: { bot: Bot; onEdit: (b: Bot) => void; onRestart: (id: number) => void; onDelete: (id: number) => void }) {
+  const { t } = useTranslation();
   return (
     <tr className="border-b border-border-subtle hover:bg-bg-elevated/30 transition-colors">
       <td className="px-5 py-3.5">
@@ -70,20 +73,20 @@ function BotRow({ bot, onEdit, onRestart, onDelete }: { bot: Bot; onEdit: (b: Bo
             onClick={() => onEdit(bot)}
             className="px-3 py-1 rounded-md text-xs font-medium text-text-secondary border border-border hover:bg-bg-elevated hover:text-text-primary transition-colors"
           >
-            Edit
+            {t('common.edit')}
           </button>
           <button
             onClick={() => onRestart(bot.id)}
             disabled={!bot.is_active}
             className="px-3 py-1 rounded-md text-xs font-medium text-text-secondary border border-border hover:bg-bg-elevated hover:text-text-primary transition-colors disabled:opacity-30"
           >
-            Restart
+            {t('common.restart')}
           </button>
           <button
             onClick={() => onDelete(bot.id)}
             className="px-3 py-1 rounded-md text-xs font-medium text-red border border-red/30 hover:bg-red/10 transition-colors"
           >
-            Delete
+            {t('common.delete')}
           </button>
         </div>
       </td>
@@ -92,6 +95,7 @@ function BotRow({ bot, onEdit, onRestart, onDelete }: { bot: Bot; onEdit: (b: Bo
 }
 
 export default function BotPool() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingBot, setEditingBot] = useState<Bot | null>(null);
@@ -250,36 +254,36 @@ export default function BotPool() {
   const tableHeader = (
     <thead>
       <tr className="border-b border-border">
-        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">Status</th>
-        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">Bot Name</th>
-        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">Username</th>
-        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">Priority</th>
-        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">Msgs Today</th>
-        <th className="text-right text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">Actions</th>
+        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">{t('common.status')}</th>
+        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">{t('botPool.botName')}</th>
+        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">{t('botPool.username')}</th>
+        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">{t('botPool.priority')}</th>
+        <th className="text-left text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">{t('botPool.msgsToday')}</th>
+        <th className="text-right text-[11px] font-semibold text-text-muted uppercase tracking-[0.5px] font-['JetBrains_Mono'] px-5 py-3">{t('common.actions')}</th>
       </tr>
     </thead>
   );
 
   return (
     <div className="flex flex-col h-full">
-      <Header title="Bot Pool" />
+      <Header title={t('nav.botPool')} />
       <div className="flex-1 px-8 py-6 overflow-auto">
         <div className="flex items-center justify-between mb-6">
           <p className="text-text-secondary text-sm">
-            Manage your Telegram bots &middot; {bots.length} bot{bots.length !== 1 ? 's' : ''} &middot; {botGroups.length} group{botGroups.length !== 1 ? 's' : ''}
+            {t('botPool.subtitle')} &middot; {bots.length} {t('botPool.botCount', { count: bots.length })} &middot; {botGroups.length} {t('botPool.groupCount', { count: botGroups.length })}
           </p>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowGroupForm(!showGroupForm)}
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-purple border border-purple/30 rounded-lg hover:bg-purple/10 transition-colors"
             >
-              <Users className="w-4 h-4" /> New Group
+              <Users className="w-4 h-4" /> {t('botPool.newGroup')}
             </button>
             <button
               onClick={() => setShowAddForm(!showAddForm)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-black text-sm font-medium rounded-lg hover:opacity-90 transition-opacity"
             >
-              <Plus className="w-4 h-4" /> Add Bot
+              <Plus className="w-4 h-4" /> {t('botPool.addBot')}
             </button>
           </div>
         </div>
@@ -296,23 +300,23 @@ export default function BotPool() {
               className="flex items-end gap-4"
             >
               <div className="flex-1">
-                <label className="block text-[13px] font-medium text-text-secondary mb-2">Group Name *</label>
+                <label className="block text-[13px] font-medium text-text-secondary mb-2">{t('botPool.groupName')} *</label>
                 <input
                   type="text"
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
-                  placeholder="e.g. Sales Team"
+                  placeholder={t('botPool.groupNamePlaceholder')}
                   className="w-full h-10 px-3.5 bg-bg-elevated border border-border rounded-lg text-sm text-text-primary placeholder:text-text-placeholder focus:outline-none focus:border-purple transition-colors"
                   required
                 />
               </div>
               <div className="flex-1">
-                <label className="block text-[13px] font-medium text-text-secondary mb-2">Description</label>
+                <label className="block text-[13px] font-medium text-text-secondary mb-2">{t('common.description')}</label>
                 <input
                   type="text"
                   value={groupDesc}
                   onChange={(e) => setGroupDesc(e.target.value)}
-                  placeholder="Optional description"
+                  placeholder={t('botPool.descPlaceholder')}
                   className="w-full h-10 px-3.5 bg-bg-elevated border border-border rounded-lg text-sm text-text-primary placeholder:text-text-placeholder focus:outline-none focus:border-purple transition-colors"
                 />
               </div>
@@ -322,7 +326,7 @@ export default function BotPool() {
                 className="inline-flex items-center gap-2 h-10 px-4 bg-purple text-text-primary text-sm font-medium rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 shrink-0"
               >
                 <Users className="w-4 h-4" />
-                {createGroupMutation.isPending ? 'Creating...' : 'Create Group'}
+                {createGroupMutation.isPending ? t('common.creating') : t('botPool.createGroup')}
               </button>
             </form>
           </div>
@@ -333,7 +337,7 @@ export default function BotPool() {
           <div className="mb-6 bg-bg-card border border-accent/20 rounded-[10px] p-5">
             <form onSubmit={handleAddSubmit} className="flex items-end gap-4">
               <div className="flex-1">
-                <label className="block text-[13px] font-medium text-text-secondary mb-2 font-['Inter']">Bot Token *</label>
+                <label className="block text-[13px] font-medium text-text-secondary mb-2 font-['Inter']">{t('botPool.botToken')} *</label>
                 <input
                   type="text"
                   value={formToken}
@@ -344,17 +348,17 @@ export default function BotPool() {
                 />
               </div>
               <div className="w-48">
-                <label className="block text-[13px] font-medium text-text-secondary mb-2 font-['Inter']">Display Name</label>
+                <label className="block text-[13px] font-medium text-text-secondary mb-2 font-['Inter']">{t('botPool.displayName')}</label>
                 <input
                   type="text"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  placeholder="My Support Bot"
+                  placeholder={t('botPool.displayNamePlaceholder')}
                   className="w-full h-10 px-3.5 bg-bg-elevated border border-border rounded-lg text-sm text-text-primary placeholder:text-text-placeholder focus:outline-none focus:border-accent transition-colors"
                 />
               </div>
               <div className="w-28">
-                <label className="block text-[13px] font-medium text-text-secondary mb-2 font-['Inter']">Priority</label>
+                <label className="block text-[13px] font-medium text-text-secondary mb-2 font-['Inter']">{t('botPool.priority')}</label>
                 <input
                   type="number"
                   value={formPriority}
@@ -370,12 +374,12 @@ export default function BotPool() {
                 className="inline-flex items-center gap-2 h-10 px-4 bg-accent text-black text-sm font-medium rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 shrink-0"
               >
                 <Plus className="w-4 h-4" />
-                {createMutation.isPending ? 'Adding...' : 'Add Bot'}
+                {createMutation.isPending ? t('common.adding') : t('botPool.addBot')}
               </button>
             </form>
             {createMutation.isError && (
               <p className="text-xs text-red mt-3">
-                Failed to add bot: {(createMutation.error as Error)?.message || 'Unknown error'}
+                {t('botPool.addFailed')}: {(createMutation.error as Error)?.message || t('common.unknownError')}
               </p>
             )}
           </div>
@@ -395,7 +399,7 @@ export default function BotPool() {
                   {expanded ? <ChevronDown className="w-4 h-4 text-purple" /> : <ChevronRight className="w-4 h-4 text-purple" />}
                   <Users className="w-4 h-4 text-purple" />
                   <span className="text-sm font-semibold text-text-primary">{group.name}</span>
-                  <span className="text-xs text-text-muted">{botsInGroup.length} bot{botsInGroup.length !== 1 ? 's' : ''}</span>
+                  <span className="text-xs text-text-muted">{botsInGroup.length} {t('botPool.botCount', { count: botsInGroup.length })}</span>
                   {group.description && (
                     <span className="text-xs text-text-placeholder ml-2">&middot; {group.description}</span>
                   )}
@@ -405,16 +409,16 @@ export default function BotPool() {
                     onClick={() => startManageMembers(group)}
                     className="px-2.5 py-1 rounded text-[11px] font-medium text-purple border border-purple/30 hover:bg-purple/10 transition-colors"
                   >
-                    Members
+                    {t('botPool.members')}
                   </button>
                   <button
                     onClick={() => {
-                      if (window.confirm(`Delete bot group "${group.name}"? Bots will be ungrouped.`))
+                      if (window.confirm(t('botPool.deleteGroupConfirm', { name: group.name })))
                         deleteGroupMutation.mutate(group.id);
                     }}
                     className="px-2.5 py-1 rounded text-[11px] font-medium text-red border border-red/30 hover:bg-red/10 transition-colors"
                   >
-                    Delete
+                    {t('common.delete')}
                   </button>
                 </div>
               </div>
@@ -424,7 +428,7 @@ export default function BotPool() {
                     {tableHeader}
                     <tbody>
                       {botsInGroup.length === 0 ? (
-                        <tr><td colSpan={6} className="text-center text-text-muted text-sm py-8">No bots in this group. Click Members to add.</td></tr>
+                        <tr><td colSpan={6} className="text-center text-text-muted text-sm py-8">{t('botPool.noBotsInGroup')}</td></tr>
                       ) : (
                         botsInGroup.map(bot => (
                           <BotRow key={bot.id} bot={bot} onEdit={startEdit} onRestart={(id) => restartMutation.mutate(id)} onDelete={(id) => setDeleteConfirm(id)} />
@@ -443,7 +447,7 @@ export default function BotPool() {
           {botGroups.length > 0 && (
             <div className="px-5 py-3 border-b border-border">
               <span className="text-xs font-semibold text-text-muted uppercase tracking-wider font-['JetBrains_Mono']">
-                Ungrouped Bots
+                {t('botPool.ungroupedBots')}
               </span>
             </div>
           )}
@@ -452,12 +456,12 @@ export default function BotPool() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="text-center text-text-muted text-sm py-12">Loading bots...</td>
+                  <td colSpan={6} className="text-center text-text-muted text-sm py-12">{t('common.loading')}</td>
                 </tr>
               ) : ungroupedBots.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="text-center text-text-muted text-sm py-12">
-                    {bots.length === 0 ? 'No bots configured. Add one to get started.' : 'All bots are in groups.'}
+                    {bots.length === 0 ? t('botPool.noBotsConfigured') : t('botPool.allBotsInGroups')}
                   </td>
                 </tr>
               ) : (
@@ -474,14 +478,14 @@ export default function BotPool() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
             <div className="bg-bg-page border border-border rounded-[10px] p-6 w-full max-w-md shadow-2xl">
               <div className="flex items-center justify-between mb-5">
-                <h3 className="text-sm font-semibold text-text-primary">Edit Bot</h3>
+                <h3 className="text-sm font-semibold text-text-primary">{t('botPool.editBot')}</h3>
                 <button onClick={() => setEditingBot(null)} className="text-text-muted hover:text-text-primary">
                   <X className="w-4 h-4" />
                 </button>
               </div>
               <form onSubmit={handleEditSubmit} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-[13px] font-medium text-text-secondary mb-2">Display Name</label>
+                  <label className="block text-[13px] font-medium text-text-secondary mb-2">{t('botPool.displayName')}</label>
                   <input
                     type="text"
                     value={editName}
@@ -490,7 +494,7 @@ export default function BotPool() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[13px] font-medium text-text-secondary mb-2">Priority (0-10)</label>
+                  <label className="block text-[13px] font-medium text-text-secondary mb-2">{t('botPool.priorityRange')}</label>
                   <input
                     type="number"
                     value={editPriority}
@@ -501,9 +505,9 @@ export default function BotPool() {
                   />
                 </div>
                 <div className="flex justify-end gap-3 mt-2">
-                  <button type="button" onClick={() => setEditingBot(null)} className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary">Cancel</button>
+                  <button type="button" onClick={() => setEditingBot(null)} className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary">{t('common.cancel')}</button>
                   <button type="submit" disabled={updateMutation.isPending} className="px-4 py-2 bg-accent text-black text-sm font-medium rounded-lg hover:opacity-90 disabled:opacity-50">
-                    {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
+                    {updateMutation.isPending ? t('common.saving') : t('common.saveChanges')}
                   </button>
                 </div>
               </form>
@@ -517,14 +521,14 @@ export default function BotPool() {
             <div className="bg-bg-page border border-border rounded-[10px] p-6 w-full max-w-md shadow-2xl">
               <div className="flex items-center justify-between mb-5">
                 <h3 className="text-sm font-semibold text-text-primary">
-                  Manage Members &mdash; {managingMembers.name}
+                  {t('botPool.manageMembers')} &mdash; {managingMembers.name}
                 </h3>
                 <button onClick={() => setManagingMembers(null)} className="text-text-muted hover:text-text-primary">
                   <X className="w-4 h-4" />
                 </button>
               </div>
               <p className="text-xs text-text-secondary mb-4">
-                Select bots to include in this group. Each bot can only belong to one group.
+                {t('botPool.manageMembersDesc')}
               </p>
               <div className="space-y-2 max-h-64 overflow-y-auto mb-4">
                 {bots.map(bot => {
@@ -550,7 +554,7 @@ export default function BotPool() {
                       </div>
                       {inOtherGroup && (
                         <span className="text-[10px] text-orange font-['JetBrains_Mono']">
-                          in {bot.bot_group_name}
+                          {t('botPool.inGroup')} {bot.bot_group_name}
                         </span>
                       )}
                     </label>
@@ -558,13 +562,13 @@ export default function BotPool() {
                 })}
               </div>
               <div className="flex justify-end gap-3">
-                <button onClick={() => setManagingMembers(null)} className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary">Cancel</button>
+                <button onClick={() => setManagingMembers(null)} className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary">{t('common.cancel')}</button>
                 <button
                   onClick={() => setMembersMutation.mutate({ groupId: managingMembers.id, botIds: memberBotIds })}
                   disabled={setMembersMutation.isPending}
                   className="px-4 py-2 bg-purple text-text-primary text-sm font-medium rounded-lg hover:opacity-90 disabled:opacity-50"
                 >
-                  {setMembersMutation.isPending ? 'Saving...' : 'Save Members'}
+                  {setMembersMutation.isPending ? t('common.saving') : t('botPool.saveMembers')}
                 </button>
               </div>
             </div>
@@ -575,18 +579,18 @@ export default function BotPool() {
         {deleteConfirm !== null && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
             <div className="bg-bg-page border border-border rounded-[10px] p-6 w-full max-w-sm shadow-2xl">
-              <h3 className="text-sm font-semibold text-text-primary mb-3">Delete Bot</h3>
+              <h3 className="text-sm font-semibold text-text-primary mb-3">{t('botPool.deleteBot')}</h3>
               <p className="text-sm text-text-secondary mb-5">
-                Are you sure you want to permanently delete this bot? This action cannot be undone.
+                {t('botPool.deleteBotConfirm')}
               </p>
               <div className="flex justify-end gap-3">
-                <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary">Cancel</button>
+                <button onClick={() => setDeleteConfirm(null)} className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary">{t('common.cancel')}</button>
                 <button
                   onClick={() => deleteMutation.mutate(deleteConfirm)}
                   disabled={deleteMutation.isPending}
                   className="px-4 py-2 bg-red text-white text-sm font-medium rounded-lg hover:opacity-90 disabled:opacity-50"
                 >
-                  {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
+                  {deleteMutation.isPending ? t('common.deleting') : t('common.delete')}
                 </button>
               </div>
             </div>

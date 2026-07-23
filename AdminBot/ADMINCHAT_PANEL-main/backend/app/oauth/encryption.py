@@ -26,11 +26,10 @@ def _get_fernet() -> Fernet:
     key = settings.OAUTH_ENCRYPTION_KEY
     if not key:
         key = Fernet.generate_key().decode()
-        logger.warning(
-            "OAUTH_ENCRYPTION_KEY is empty — auto-generated a key for this session. "
-            "Set OAUTH_ENCRYPTION_KEY in .env for persistence across restarts. "
-            "Key: %s",
-            key,
+        logger.error(
+            "OAUTH_ENCRYPTION_KEY is empty — auto-generated an ephemeral key. "
+            "All previously encrypted data will be unreadable. "
+            "Set OAUTH_ENCRYPTION_KEY in .env immediately and restart.",
         )
         settings.OAUTH_ENCRYPTION_KEY = key
 
@@ -69,3 +68,25 @@ def decrypt_oauth_data(data: Dict[str, Any]) -> Dict[str, Any]:
                     f"Cannot decrypt {field}. Check OAUTH_ENCRYPTION_KEY."
                 )
     return result
+
+
+# ---------------------------------------------------------------------------
+# Bot token encryption (reuses the same Fernet key)
+# ---------------------------------------------------------------------------
+
+def encrypt_bot_token(token: str) -> str:
+    """Encrypt a Telegram bot token for storage."""
+    f = _get_fernet()
+    return f.encrypt(token.encode()).decode()
+
+
+def decrypt_bot_token(encrypted: str) -> str:
+    """Decrypt a Telegram bot token from storage."""
+    if not encrypted:
+        return encrypted
+    f = _get_fernet()
+    try:
+        return f.decrypt(encrypted.encode()).decode()
+    except Exception:
+        logger.error("Failed to decrypt bot token — OAUTH_ENCRYPTION_KEY may have changed")
+        raise ValueError("Cannot decrypt bot token. Check OAUTH_ENCRYPTION_KEY.")

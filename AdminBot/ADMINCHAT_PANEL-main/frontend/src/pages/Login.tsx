@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../stores/authStore';
 import {
   LogIn,
@@ -13,30 +14,8 @@ import {
   Lock,
 } from 'lucide-react';
 
-const features = [
-  {
-    icon: <MessageSquare size={18} />,
-    title: 'Bidirectional Messaging',
-    desc: 'Forward and reply to Telegram messages in real time',
-  },
-  {
-    icon: <Bot size={18} />,
-    title: 'Multi-Bot Pool',
-    desc: 'Manage multiple bots with automatic failover',
-  },
-  {
-    icon: <ShieldCheck size={18} />,
-    title: 'Role-Based Access',
-    desc: 'Fine-grained permissions for agents and admins',
-  },
-  {
-    icon: <BarChart3 size={18} />,
-    title: 'FAQ & Analytics',
-    desc: 'Automated replies with hit-rate analytics',
-  },
-];
-
 export default function Login() {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -45,6 +24,29 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const loginWithCredentials = useAuthStore((s) => s.loginWithCredentials);
   const navigate = useNavigate();
+
+  const features = [
+    {
+      icon: <MessageSquare size={18} />,
+      title: t('login.features.bidirectional.title'),
+      desc: t('login.features.bidirectional.desc'),
+    },
+    {
+      icon: <Bot size={18} />,
+      title: t('login.features.multiBot.title'),
+      desc: t('login.features.multiBot.desc'),
+    },
+    {
+      icon: <ShieldCheck size={18} />,
+      title: t('login.features.rbac.title'),
+      desc: t('login.features.rbac.desc'),
+    },
+    {
+      icon: <BarChart3 size={18} />,
+      title: t('login.features.faq.title'),
+      desc: t('login.features.faq.desc'),
+    },
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,7 +59,7 @@ export default function Login() {
     } catch (err: unknown) {
       const axiosError = err as { response?: { data?: { detail?: string } } };
       setError(
-        axiosError.response?.data?.detail || 'Invalid username or password'
+        axiosError.response?.data?.detail || t('login.invalidCredentials')
       );
     } finally {
       setLoading(false);
@@ -77,11 +79,6 @@ export default function Login() {
             Telegram customer service management platform with bidirectional
             message forwarding, multi-bot pool, and intelligent FAQ engine.
           </p>
-
-          {/* Cyan divider */}
-          <div className="flex justify-center my-8">
-            <div className="w-[60px] h-[2px] bg-accent" />
-          </div>
 
           <div className="space-y-5 text-left max-w-sm mx-auto">
             {features.map((f) => (
@@ -113,9 +110,9 @@ export default function Login() {
 
           {/* Desktop heading */}
           <div className="hidden lg:block mb-8">
-            <h2 className="text-[28px] font-bold text-text-primary font-['Space_Grotesk']">Sign In</h2>
+            <h2 className="text-[28px] font-bold text-text-primary font-['Space_Grotesk']">{t('login.title')}</h2>
             <p className="text-text-muted text-sm mt-1">
-              Sign in to your account to continue
+              {t('login.subtitle')}
             </p>
           </div>
 
@@ -126,7 +123,7 @@ export default function Login() {
           >
             <div>
               <label className="block text-[13px] font-medium text-text-secondary mb-2 font-['Inter']">
-                Username
+                {t('login.username')}
               </label>
               <div className="relative">
                 <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
@@ -135,7 +132,7 @@ export default function Login() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full h-10 pl-10 pr-4 bg-bg-page border border-border rounded-lg text-text-primary text-sm placeholder:text-text-placeholder focus:outline-none focus:border-accent transition-colors"
-                  placeholder="Enter username"
+                  placeholder={t('login.enterUsername')}
                   autoComplete="username"
                   required
                 />
@@ -144,7 +141,7 @@ export default function Login() {
 
             <div>
               <label className="block text-[13px] font-medium text-text-secondary mb-2 font-['Inter']">
-                Password
+                {t('login.password')}
               </label>
               <div className="relative">
                 <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
@@ -153,7 +150,7 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full h-10 pl-10 pr-10 bg-bg-page border border-border rounded-lg text-text-primary text-sm placeholder:text-text-placeholder focus:outline-none focus:border-accent transition-colors"
-                  placeholder="Enter password"
+                  placeholder={t('login.enterPassword')}
                   autoComplete="current-password"
                   required
                 />
@@ -180,7 +177,7 @@ export default function Login() {
                 htmlFor="remember"
                 className="text-xs text-text-muted cursor-pointer select-none"
               >
-                Remember me
+                {t('login.rememberMe')}
               </label>
             </div>
 
@@ -196,7 +193,7 @@ export default function Login() {
               className="w-full flex items-center justify-center gap-2 h-11 bg-accent text-black font-semibold text-sm rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <LogIn size={16} />
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? t('login.signingIn') : t('login.signIn')}
             </button>
           </form>
 

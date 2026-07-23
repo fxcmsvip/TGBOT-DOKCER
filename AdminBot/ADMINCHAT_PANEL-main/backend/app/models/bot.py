@@ -11,7 +11,8 @@ class Bot(Base, TimestampMixin):
     __tablename__ = "bots"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    token: Mapped[str] = mapped_column(String(255), nullable=False)
+    token: Mapped[str] = mapped_column(String(512), nullable=False)  # Fernet-encrypted
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)  # SHA-256 for dedup
     bot_username: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     bot_id: Mapped[Optional[int]] = mapped_column(BigInteger, unique=True, nullable=True)
     display_name: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)

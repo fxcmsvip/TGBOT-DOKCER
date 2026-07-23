@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { TrendingUp, TrendingDown, MessageSquare, CheckCircle, AlertCircle, ShieldBan } from 'lucide-react';
 import Header from '../components/layout/Header';
 import { StatCardSkeleton, DashboardPanelSkeleton } from '../components/ui/Skeleton';
@@ -77,6 +78,7 @@ function FaqBar({ name, hits, maxHits }: { name: string; hits: number; maxHits: 
 }
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { data: stats, isLoading } = useQuery<DashboardStatsData>({
     queryKey: ['dashboard-stats'],
     queryFn: getDashboardStats,
@@ -86,7 +88,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col h-full">
-      <Header title="Dashboard" subtitle="ADMINCHAT Panel Overview" />
+      <Header title={t('dashboard.title')} subtitle={t('dashboard.subtitle')} />
       <div className="flex-1 px-8 py-6 overflow-y-auto">
         {/* Stat cards */}
         {isLoading ? (
@@ -109,26 +111,26 @@ export default function Dashboard() {
         <>
         <div className="grid grid-cols-4 gap-4 mb-6">
           <StatCard
-            label="Total Received"
+            label={t('dashboard.totalReceived')}
             value={stats?.total_conversations ?? 0}
             icon={MessageSquare}
             color="text-accent"
             trend={stats?.trends?.conversations}
           />
           <StatCard
-            label="Resolved"
+            label={t('dashboard.resolved')}
             value={stats?.resolved_conversations ?? 0}
             icon={CheckCircle}
             color="text-green"
           />
           <StatCard
-            label="Open / Unresolved"
+            label={t('dashboard.openUnresolved')}
             value={stats?.open_conversations ?? 0}
             icon={AlertCircle}
             color="text-orange"
           />
           <StatCard
-            label="Blocked"
+            label={t('dashboard.blocked')}
             value={stats?.blocked_users ?? 0}
             icon={ShieldBan}
             color="text-red"
@@ -140,9 +142,9 @@ export default function Dashboard() {
           {/* Bot Pool Status */}
           <div className="bg-bg-card border border-border rounded-[10px] p-5 glass-card">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">Bot Pool Status</h3>
+              <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">{t('dashboard.botPoolStatus')}</h3>
               <span className="text-[10px] font-semibold font-['JetBrains_Mono'] px-2 py-0.5 rounded bg-green/10 text-green">
-                {stats?.active_bots ?? 0} Active
+                {stats?.active_bots ?? 0} {t('dashboard.activeCount', { count: stats?.active_bots ?? 0 }).replace(`${stats?.active_bots ?? 0} `, '')}
               </span>
             </div>
             <div className="space-y-2">
@@ -160,7 +162,7 @@ export default function Dashboard() {
                   </div>
                 ))
               ) : (
-                <div className="text-text-muted text-sm py-4 text-center">No bots configured</div>
+                <div className="text-text-muted text-sm py-4 text-center">{t('dashboard.noBotsConfigured')}</div>
               )}
             </div>
           </div>
@@ -168,7 +170,7 @@ export default function Dashboard() {
           {/* FAQ Performance */}
           <div className="bg-bg-card border border-border rounded-[10px] p-5 glass-card">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">FAQ Performance</h3>
+              <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">{t('dashboard.faqPerformance')}</h3>
               <span className="text-[10px] font-semibold font-['JetBrains_Mono'] px-2 py-0.5 rounded bg-accent/10 text-accent">
                 {((stats?.faq_hit_rate ?? 0) * 100).toFixed(0)}% hit rate
               </span>
@@ -182,7 +184,7 @@ export default function Dashboard() {
                   ));
                 })()
               ) : (
-                <div className="text-text-muted text-sm py-4 text-center">No FAQ data yet</div>
+                <div className="text-text-muted text-sm py-4 text-center">{t('dashboard.noFaqData')}</div>
               )}
             </div>
           </div>
@@ -194,7 +196,7 @@ export default function Dashboard() {
           <div className="bg-bg-card border border-border rounded-[10px] p-5 glass-card">
             <div className="flex items-center gap-2 mb-4">
               <AlertCircle size={16} className="text-orange" />
-              <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">Missed Knowledge</h3>
+              <h3 className="text-[18px] font-semibold text-text-primary font-['Space_Grotesk']">{t('dashboard.missedKnowledge')}</h3>
             </div>
             <div className="space-y-2">
               {stats?.missed_keywords && stats.missed_keywords.length > 0 ? (
