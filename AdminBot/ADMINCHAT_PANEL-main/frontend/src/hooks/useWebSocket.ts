@@ -85,8 +85,16 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
         }
       }
 
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}/ws?token=${token}`;
+      // Support cross-domain deployment via VITE_WS_BASE_URL environment variable
+      // Example: VITE_WS_BASE_URL=wss://api.yourdomain.com/ws
+      let wsUrl: string;
+      const wsBaseUrl = import.meta.env.VITE_WS_BASE_URL;
+      if (wsBaseUrl) {
+        wsUrl = `${wsBaseUrl}?token=${token}`;
+      } else {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        wsUrl = `${protocol}//${window.location.host}/ws?token=${token}`;
+      }
 
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;

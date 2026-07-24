@@ -5,8 +5,12 @@ interface RetryableRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
 
+// Support cross-domain deployment via VITE_API_BASE_URL environment variable
+// Example: VITE_API_BASE_URL=https://api.yourdomain.com/api/v1
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
