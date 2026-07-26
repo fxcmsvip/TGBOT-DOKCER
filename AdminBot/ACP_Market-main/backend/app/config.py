@@ -53,9 +53,9 @@ class Settings(BaseSettings):
     # CORS
     CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
 
-    # Admin
-    INIT_ADMIN_EMAIL: str = "admin@novahelix.org"
-    INIT_ADMIN_PASSWORD: str = "changeme"
+    # Admin (统一账户: adminchat / adminchat)
+    INIT_ADMIN_EMAIL: str = "adminchat@adminchat.local"
+    INIT_ADMIN_PASSWORD: str = "adminchat"
 
     DEBUG: bool = False
 

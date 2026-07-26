@@ -42,9 +42,9 @@ class Settings(BaseSettings):
     MEDIA_CACHE_TTL_DAYS: int = 7
     MEDIA_CACHE_DIR: str = "/app/media"
 
-    # Initial admin
-    INIT_ADMIN_USERNAME: str = "admin"
-    INIT_ADMIN_PASSWORD: str = "admin123"
+    # Initial admin (统一账户: adminchat / adminchat)
+    INIT_ADMIN_USERNAME: str = "adminchat"
+    INIT_ADMIN_PASSWORD: str = "adminchat"
 
     # AI (optional)
     AI_PROVIDER: str = "openai"  # "openai" | "anthropic" | "ollama" | "coze" | "custom"
