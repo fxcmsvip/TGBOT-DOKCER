@@ -391,14 +391,22 @@ deploy_admin() {
     cd "$project_dir"
     
     # 构建并启动
+    # 使用 deploy/docker-compose.full.yml 作为生产配置
+    local compose_file="deploy/docker-compose.full.yml"
+    
+    if [ ! -f "$compose_file" ]; then
+        log_error "找不到 $compose_file"
+        exit 1
+    fi
+    
     if [ "$USE_EXISTING_DB" = true ] && [ "$USE_EXISTING_REDIS" = true ]; then
         # 使用现有数据库，只启动应用
         log_info "使用现有数据库，启动应用容器..."
-        docker compose up -d backend frontend
+        docker compose -f "$compose_file" up -d backend frontend
     else
         # 启动所有服务（包括数据库）
         log_info "启动所有服务..."
-        docker compose up -d
+        docker compose -f "$compose_file" up -d
     fi
     
     # 等待服务启动
@@ -441,12 +449,20 @@ deploy_acp() {
     cd "$project_dir"
     
     # 构建并启动
+    # 使用 deploy/docker-compose.prod.yml 作为生产配置
+    local compose_file="deploy/docker-compose.prod.yml"
+    
+    if [ ! -f "$compose_file" ]; then
+        log_error "找不到 $compose_file"
+        exit 1
+    fi
+    
     if [ "$USE_EXISTING_DB" = true ] && [ "$USE_EXISTING_REDIS" = true ]; then
         log_info "使用现有数据库，启动应用容器..."
-        docker compose up -d backend frontend
+        docker compose -f "$compose_file" up -d
     else
         log_info "启动所有服务..."
-        docker compose up -d
+        docker compose -f "$compose_file" up -d
     fi
     
     # 等待服务启动
