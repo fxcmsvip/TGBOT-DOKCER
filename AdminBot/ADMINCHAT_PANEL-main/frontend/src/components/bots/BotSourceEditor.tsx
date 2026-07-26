@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { X, Save, RotateCcw, Play, CheckCircle, AlertCircle, Code2 } from 'lucide-react';
 import { botSourceApi, type BotSource } from '../../services/botSourceApi';
 
@@ -10,7 +9,6 @@ interface BotSourceEditorProps {
 }
 
 export default function BotSourceEditor({ botId, botName, onClose }: BotSourceEditorProps) {
-  const { t } = useTranslation();
   const [source, setSource] = useState<BotSource | null>(null);
   const [editValue, setEditValue] = useState('');
   const [loading, setLoading] = useState(true);
@@ -23,7 +21,8 @@ export default function BotSourceEditor({ botId, botName, onClose }: BotSourceEd
   const loadSource = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await botSourceApi.get(botId);
+      const response = await botSourceApi.get(botId);
+      const data = response.data;
       setSource(data);
       setEditValue(data.source_code);
       setIsValid(null);
@@ -42,7 +41,8 @@ export default function BotSourceEditor({ botId, botName, onClose }: BotSourceEd
   const handleValidate = async () => {
     setValidating(true);
     try {
-      const result = await botSourceApi.validate(botId, editValue);
+      const response = await botSourceApi.validate(botId, editValue);
+      const result = response.data;
       setIsValid(result.valid);
       setValidationError(result.error || null);
     } catch (err) {
@@ -69,7 +69,8 @@ export default function BotSourceEditor({ botId, botName, onClose }: BotSourceEd
   const handleRegenerate = async () => {
     if (!confirm('Regenerate source code? This will overwrite your custom changes.')) return;
     try {
-      const data = await botSourceApi.regenerate(botId);
+      const response = await botSourceApi.regenerate(botId);
+      const data = response.data;
       setSource(data);
       setEditValue(data.source_code);
       setMessage({ type: 'success', text: 'Source code regenerated' });

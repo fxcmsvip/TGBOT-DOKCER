@@ -4,11 +4,11 @@
  * Locale-aware formatting based on current language setting.
  */
 
-import { langStore } from '../stores/langStore';
+import { useLangStore } from '../stores/langStore';
 
 /** Get the appropriate locale string based on current language */
 function getLocale(): string {
-  const lang = langStore.getState().lang;
+  const lang = useLangStore.getState().lang;
   if (lang === 'zh-CN') return 'zh-CN';
   if (lang === 'zh-TW') return 'zh-TW';
   return 'en-US';

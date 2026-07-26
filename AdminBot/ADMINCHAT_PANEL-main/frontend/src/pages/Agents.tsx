@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Bot, Edit, Trash2, TestTube, MessageSquare, Settings, Zap } from 'lucide-react';
-import { listAgents, createAgent, updateAgent, deleteAgent, testAgent, Agent, AgentCreate } from '../services/agentApi';
-import { listAiConfigs, AiConfig } from '../services/aiConfigApi';
-import { listBots, Bot as BotType } from '../services/botApi';
+import { listAgents, createAgent, updateAgent, deleteAgent, testAgent } from '../services/agentApi';
+import type { Agent, AgentCreate } from '../services/agentApi';
+import { getAIConfigs } from '../services/aiConfigApi';
+import { getBots } from '../services/botApi';
+import type { AIConfig, Bot as BotType } from '../types';
 
 export default function Agents() {
   const { t } = useTranslation();
   const [agents, setAgents] = useState<Agent[]>([]);
-  const [aiConfigs, setAiConfigs] = useState<AiConfig[]>([]);
+  const [aiConfigs, setAiConfigs] = useState<AIConfig[]>([]);
   const [bots, setBots] = useState<BotType[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -28,8 +30,8 @@ export default function Agents() {
     try {
       const [agentsData, aiConfigsData, botsData] = await Promise.all([
         listAgents(),
-        listAiConfigs(),
-        listBots(),
+        getAIConfigs(),
+        getBots(),
       ]);
       setAgents(agentsData.agents);
       setAiConfigs(aiConfigsData.items || aiConfigsData);

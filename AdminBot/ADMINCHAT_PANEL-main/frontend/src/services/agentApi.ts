@@ -1,7 +1,7 @@
 /**
  * Agent API service
  */
-import { api } from './api';
+import api from './api';
 
 export interface AgentPermissions {
   can_access_faq: boolean;
