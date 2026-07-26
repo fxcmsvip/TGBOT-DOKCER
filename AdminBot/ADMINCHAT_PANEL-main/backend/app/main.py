@@ -13,10 +13,14 @@ logger = logging.getLogger(__name__)
 
 
 async def create_initial_admin() -> None:
-    """Create the initial super_admin account if no admins exist."""
+    """Create the initial super_admin account if no admins exist.
+    
+    Also updates the admin credentials if INIT_ADMIN_USERNAME matches
+    an existing admin but the password has changed.
+    """
     from app.database import async_session_factory
     from app.models.admin import Admin
-    from app.utils.security import hash_password
+    from app.utils.security import hash_password, verify_password
 
     try:
         async with async_session_factory() as session:
@@ -24,7 +28,25 @@ async def create_initial_admin() -> None:
             existing = result.scalar_one_or_none()
 
             if existing is not None:
-                logger.info("Admin accounts already exist, skipping initial creation.")
+                # Check if we need to update credentials
+                if existing.username == settings.INIT_ADMIN_USERNAME:
+                    # Username matches, check if password needs update
+                    if not verify_password(settings.INIT_ADMIN_PASSWORD, existing.password_hash):
+                        existing.password_hash = hash_password(settings.INIT_ADMIN_PASSWORD)
+                        await session.commit()
+                        logger.info(
+                            "Updated admin password for user: %s",
+                            settings.INIT_ADMIN_USERNAME,
+                        )
+                    else:
+                        logger.info("Admin account already exists with correct credentials.")
+                else:
+                    logger.info(
+                        "Admin account exists with username '%s', INIT_ADMIN_USERNAME='%s' ignored. "
+                        "To reset, delete the admin from database or use a different database.",
+                        existing.username,
+                        settings.INIT_ADMIN_USERNAME,
+                    )
                 return
 
             admin = Admin(
@@ -41,8 +63,8 @@ async def create_initial_admin() -> None:
                 "Initial super_admin created: username=%s",
                 settings.INIT_ADMIN_USERNAME,
             )
-    except Exception:
-        logger.info("Initial admin creation skipped (already exists or error).")
+    except Exception as e:
+        logger.error("Initial admin creation failed: %s", e)
 
 
 @asynccontextmanager
