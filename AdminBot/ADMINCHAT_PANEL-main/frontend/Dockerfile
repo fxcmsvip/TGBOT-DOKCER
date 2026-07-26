@@ -5,14 +5,23 @@ WORKDIR /app
 ARG APP_VERSION=dev
 ARG BUILD_VERSION_ARG=dev
 
-COPY package.json package-lock.json ./
-RUN npm ci
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source code
 COPY . .
 
 # Write version files so vite.config.ts can read them
 RUN echo "${APP_VERSION}" > /app/VERSION && echo "${BUILD_VERSION_ARG}" > /app/BUILD_VERSION
 
-RUN npm run build
+# Build
+RUN pnpm run build
 
 # Production stage
 FROM nginx:alpine
