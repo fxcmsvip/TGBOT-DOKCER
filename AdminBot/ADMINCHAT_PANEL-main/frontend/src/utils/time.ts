@@ -10,7 +10,6 @@ import { useLangStore } from '../stores/langStore';
 function getLocale(): string {
   const lang = useLangStore.getState().lang;
   if (lang === 'zh-CN') return 'zh-CN';
-  if (lang === 'zh-TW') return 'zh-TW';
   return 'en-US';
 }
 
@@ -67,7 +66,7 @@ export function formatRelativeTime(dateStr: string): string {
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
-  const lang = langStore.getState().lang;
+  const lang = useLangStore.getState().lang;
   const isZh = lang === 'zh-CN' || lang === 'zh-TW';
 
   if (diffMins < 1) return isZh ? '刚刚' : 'just now';

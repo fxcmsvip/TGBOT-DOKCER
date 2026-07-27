@@ -83,7 +83,8 @@ export default function BotSourceEditor({ botId, botName, onClose }: BotSourceEd
 
   const handleRestart = async (mode: 'auto' | 'local' | 'remote') => {
     try {
-      const result = await botSourceApi.restart(botId, mode);
+      const response = await botSourceApi.restart(botId, mode);
+      const result = response.data;
       if (result.local_started || result.remote_started) {
         setMessage({ 
           type: 'success', 

@@ -35,7 +35,7 @@ export default function Agents() {
       ]);
       setAgents(agentsData.agents);
       setAiConfigs(aiConfigsData.items || aiConfigsData);
-      setBots(botsData.bots || botsData);
+      setBots(botsData.items || botsData);
     } catch (error) {
       console.error('Failed to load data:', error);
     }
@@ -270,7 +270,7 @@ function AgentModal({
   onSave,
 }: {
   agent: Agent | null;
-  aiConfigs: AiConfig[];
+  aiConfigs: AIConfig[];
   bots: BotType[];
   onClose: () => void;
   onSave: (data: AgentCreate) => Promise<void>;
@@ -408,7 +408,7 @@ function AgentModal({
                   <option value="">{t('agents.noBinding')}</option>
                   {bots.map((bot) => (
                     <option key={bot.id} value={bot.id}>
-                      @{bot.bot_username}
+                      @{bot.username}
                     </option>
                   ))}
                 </select>
