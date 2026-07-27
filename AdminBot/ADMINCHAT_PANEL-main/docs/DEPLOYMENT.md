@@ -6,8 +6,8 @@
 
 | 镜像 | 说明 |
 |------|------|
-| `ghcr.io/<owner>/adminchat-backend` | 后端 (FastAPI + Bot) |
-| `ghcr.io/<owner>/adminchat-frontend` | 前端 (Nginx 托管静态文件) |
+| `fxcmsvip/adminchat-backend` | 后端 (FastAPI + Bot) |
+| `fxcmsvip/adminchat-frontend` | 前端 (Nginx 托管静态文件) |
 
 ### 后端 Dockerfile
 
@@ -61,7 +61,7 @@ version: '3.8'
 
 services:
   backend:
-    image: ghcr.io/<owner>/adminchat-backend:latest
+    image: fxcmsvip/adminchat-backend:latest
     restart: unless-stopped
     depends_on:
       postgres:
@@ -81,7 +81,7 @@ services:
       retries: 3
 
   frontend:
-    image: ghcr.io/<owner>/adminchat-frontend:latest
+    image: fxcmsvip/adminchat-frontend:latest
     restart: unless-stopped
     ports:
       - "3000:80"

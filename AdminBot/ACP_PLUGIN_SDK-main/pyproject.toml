@@ -38,9 +38,9 @@ cli = [
 acp-cli = "acp_cli.main:cli"
 
 [project.urls]
-Homepage = "https://github.com/fxxkrlab/acp-plugin-sdk"
-Documentation = "https://github.com/fxxkrlab/acp-plugin-sdk/tree/main/docs"
-Repository = "https://github.com/fxxkrlab/acp-plugin-sdk"
+Homepage = "https://github.com/fxcmsvip/acp-plugin-sdk"
+Documentation = "https://github.com/fxcmsvip/acp-plugin-sdk/tree/main/docs"
+Repository = "https://github.com/fxcmsvip/acp-plugin-sdk"
 
 [tool.hatch.version]
 path = "acp_plugin_sdk/version.py"

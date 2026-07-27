@@ -3,10 +3,10 @@ English | [中文](./README.md)
 ---
 
 <!-- Community & Status -->
-![GitHub Stars](https://img.shields.io/github/stars/fxxkrlab/ACP_PLUGINS?style=flat-square&color=FFD700&logo=github)
-![GitHub Forks](https://img.shields.io/github/forks/fxxkrlab/ACP_PLUGINS?style=flat-square&color=8B5CF6&logo=github)
-![GitHub Issues](https://img.shields.io/github/issues/fxxkrlab/ACP_PLUGINS?style=flat-square&color=FF8800&logo=github)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/fxxkrlab/ACP_PLUGINS?style=flat-square&color=059669&logo=github)
+![GitHub Stars](https://img.shields.io/github/stars/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=FFD700&logo=github)
+![GitHub Forks](https://img.shields.io/github/forks/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=8B5CF6&logo=github)
+![GitHub Issues](https://img.shields.io/github/issues/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=FF8800&logo=github)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=059669&logo=github)
 ![License](https://img.shields.io/badge/License-GPL_3.0-blue?style=flat-square)
 
 <!-- Ecosystem -->
@@ -70,7 +70,7 @@ A full-featured movie/TV request system powered by TMDB.
 
 ## Development Guide
 
-Want to build your own ACP plugin? Use the [ACP Plugin SDK](https://github.com/fxxkrlab/acp-plugin-sdk).
+Want to build your own ACP plugin? Use the [ACP Plugin SDK](https://github.com/fxcmsvip/acp-plugin-sdk).
 
 ### Quick Start
 
@@ -105,8 +105,8 @@ ACP plugins support five capability declarations (configured in `manifest.json`)
 
 ### Related Links
 
-- [ACP Plugin SDK](https://github.com/fxxkrlab/acp-plugin-sdk) &mdash; Plugin development SDK + CLI tools
-- [ADMINCHAT Panel](https://github.com/fxxkrlab/ADMINCHAT_PANEL) &mdash; Main project
+- [ACP Plugin SDK](https://github.com/fxcmsvip/acp-plugin-sdk) &mdash; Plugin development SDK + CLI tools
+- [ADMINCHAT Panel](https://github.com/fxcmsvip/TGBOT-DOKCER) &mdash; Main project
 - [ACP Market](https://acpmarket.novahelix.org) &mdash; Plugin marketplace
 
 ---

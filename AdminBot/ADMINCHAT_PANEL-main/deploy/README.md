@@ -18,7 +18,7 @@
 
 ```bash
 # 1. 下载部署文件
-git clone https://github.com/fxxkrlab/ADMINCHAT_PANEL.git
+git clone https://github.com/fxcmsvip/TGBOT-DOKCER.git
 cd ADMINCHAT_PANEL/deploy
 
 # 2. 配置环境变量
@@ -124,7 +124,7 @@ docker compose -f docker-compose.full.yml up -d
 
 ```bash
 # 1. Clone deployment files
-git clone https://github.com/fxxkrlab/ADMINCHAT_PANEL.git
+git clone https://github.com/fxcmsvip/TGBOT-DOKCER.git
 cd ADMINCHAT_PANEL/deploy
 
 # 2. Configure environment

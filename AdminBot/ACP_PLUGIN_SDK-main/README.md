@@ -1,6 +1,6 @@
 # ACP Plugin SDK
 
-SDK and CLI tools for building [ADMINCHAT Panel](https://github.com/fxxkrlab/acp-panel) plugins.
+SDK and CLI tools for building [ADMINCHAT Panel](https://github.com/fxcmsvip/acp-panel) plugins.
 
 ## Installation
 

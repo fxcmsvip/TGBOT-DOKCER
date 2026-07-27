@@ -61,7 +61,7 @@ Version format: `MAJOR.MINOR.PATCH` starting at `0.1.0`
 - **CSV Injection Protection** — `escapeCsvCell()` utility for safe CSV exports
 - **Role-Based Access Control** — 5-tier role hierarchy (user → developer → reviewer → admin → super_admin)
 - **Docker Compose** — Full-stack development environment with PostgreSQL 16, Redis 7, backend (hot reload), frontend (Vite HMR), healthchecks
-- **GHCR Container Image** — Published to `ghcr.io/fxxkrlab/acp_market:0.1.0`
+- **GHCR Container Image** — Published to `fxcmsvip/acp-market:0.1.0`
 
 ### Security
 - HttpOnly + Secure + SameSite cookies (no localStorage token storage)

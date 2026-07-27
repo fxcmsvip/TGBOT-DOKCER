@@ -5,7 +5,7 @@ Thank you for your interest in contributing!
 ## Development Setup
 
 ```bash
-git clone https://github.com/fxxkrlab/ACP_Market.git
+git clone https://github.com/fxcmsvip/TGBOT-DOKCER.git
 cd ACP_Market
 docker compose up --build
 ```
@@ -50,6 +50,6 @@ docker compose up --build
 
 ## Reporting Issues
 
-Use [GitHub Issues](https://github.com/fxxkrlab/ACP_Market/issues) for bug reports and feature requests.
+Use [GitHub Issues](https://github.com/fxcmsvip/TGBOT-DOKCER/issues) for bug reports and feature requests.
 
 For security vulnerabilities, see [SECURITY.md](./SECURITY.md).

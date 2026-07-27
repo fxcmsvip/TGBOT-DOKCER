@@ -117,6 +117,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[1.0.0]: https://github.com/fxxkrlab/ADMINCHAT_PANEL/releases/tag/v1.0.0
-[0.9.0]: https://github.com/fxxkrlab/ADMINCHAT_PANEL/releases/tag/v0.9.0
-[0.8.0]: https://github.com/fxxkrlab/ADMINCHAT_PANEL/releases/tag/v0.8.0
+[1.0.0]: https://github.com/fxcmsvip/TGBOT-DOKCER/releases/tag/v1.0.0
+[0.9.0]: https://github.com/fxcmsvip/TGBOT-DOKCER/releases/tag/v0.9.0
+[0.8.0]: https://github.com/fxcmsvip/TGBOT-DOKCER/releases/tag/v0.8.0

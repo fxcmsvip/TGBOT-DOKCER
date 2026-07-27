@@ -1,6 +1,6 @@
 services:
   acpmarket-backend:
-    image: ghcr.io/fxxkrlab/acp_market:0.2.1
+    image: fxcmsvip/acp-market:0.2.1
     container_name: acpmarket-backend
     restart: unless-stopped
     env_file: .env.production
@@ -16,7 +16,7 @@ services:
       start_period: 10s
 
   acpmarket-frontend:
-    image: ghcr.io/fxxkrlab/acp_market_frontend:0.2.1
+    image: fxcmsvip/acp-market_frontend:0.2.1
     container_name: acpmarket-frontend
     restart: unless-stopped
     networks:

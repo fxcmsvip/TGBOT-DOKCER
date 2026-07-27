@@ -3,7 +3,7 @@
 ## Docker Compose (Development)
 
 ```bash
-git clone https://github.com/fxxkrlab/ACP_Market.git
+git clone https://github.com/fxcmsvip/TGBOT-DOKCER.git
 cd ACP_Market
 docker compose up --build
 ```
@@ -26,8 +26,8 @@ docker compose -f docker-compose.yml up -d --build
 Pre-built backend images are available:
 
 ```bash
-docker pull ghcr.io/fxxkrlab/acp_market:0.1.0
-docker pull ghcr.io/fxxkrlab/acp_market:latest
+docker pull fxcmsvip/acp-market:0.1.0
+docker pull fxcmsvip/acp-market:latest
 ```
 
 ## Production Checklist

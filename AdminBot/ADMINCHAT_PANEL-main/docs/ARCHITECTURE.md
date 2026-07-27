@@ -201,12 +201,12 @@ frontend/
 # docker-compose.yml 概览
 services:
   backend:
-    image: ghcr.io/<owner>/adminchat-backend:latest
+    image: fxcmsvip/adminchat-backend:latest
     depends_on: [postgres, redis]
     env_file: .env
 
   frontend:
-    image: ghcr.io/<owner>/adminchat-frontend:latest
+    image: fxcmsvip/adminchat-frontend:latest
 
   postgres:
     image: postgres:16-alpine

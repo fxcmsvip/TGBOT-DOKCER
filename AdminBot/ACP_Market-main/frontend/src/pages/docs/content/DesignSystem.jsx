@@ -491,7 +491,7 @@ function StatCard({ label, value, icon: Icon, color }) {
 
       <Callout type="info" title="Plugin SDK changelog">
         The design system evolves with the Panel. Check the{' '}
-        <a href="https://github.com/fxxkrlab/ACP_PLUGIN_SDK" className="text-accent-primary hover:underline">ACP Plugin SDK</a> changelog
+        <a href="https://github.com/fxcmsvip/TGBOT-DOKCER" className="text-accent-primary hover:underline">ACP Plugin SDK</a> changelog
         for updates to design tokens and patterns. Current SDK version: <span className="font-mono text-xs font-medium">v0.2.1</span>.
       </Callout>
     </div>

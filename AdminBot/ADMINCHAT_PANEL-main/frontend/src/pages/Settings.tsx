@@ -398,7 +398,7 @@ function VersionInfoCard() {
                   Update available: v{versionInfo.latest_version}
                 </span>
                 <a
-                  href="https://github.com/fxxkrlab/ADMINCHAT_PANEL/releases"
+                  href="https://github.com/fxcmsvip/TGBOT-DOKCER/releases"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[11px] text-accent hover:underline flex items-center gap-1 ml-auto"

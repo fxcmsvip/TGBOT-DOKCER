@@ -30,7 +30,7 @@ fi
 source .env
 
 IMAGE_TAG="${IMAGE_TAG:-latest}"
-REGISTRY="ghcr.io/fxxkrlab/adminchat_panel"
+REGISTRY="fxcmsvip/adminchat"
 
 echo "=== ADMINCHAT Panel - Docker Run ==="
 echo "Image tag: ${IMAGE_TAG}"

@@ -3,12 +3,12 @@ English | [中文](./README.md)
 ---
 
 <!-- Community & Status -->
-![GitHub Release](https://img.shields.io/github/v/release/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=00D9FF&label=Release)
-![GitHub Stars](https://img.shields.io/github/stars/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=FFD700&logo=github)
-![GitHub Forks](https://img.shields.io/github/forks/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=8B5CF6&logo=github)
-![GitHub Issues](https://img.shields.io/github/issues/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=FF8800&logo=github)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=059669&logo=github)
-![Build Status](https://img.shields.io/github/actions/workflow/status/fxxkrlab/ADMINCHAT_PANEL/build-and-push.yml?style=flat-square&label=Build&logo=githubactions&logoColor=white)
+![GitHub Release](https://img.shields.io/github/v/release/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=00D9FF&label=Release)
+![GitHub Stars](https://img.shields.io/github/stars/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=FFD700&logo=github)
+![GitHub Forks](https://img.shields.io/github/forks/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=8B5CF6&logo=github)
+![GitHub Issues](https://img.shields.io/github/issues/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=FF8800&logo=github)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=059669&logo=github)
+![Build Status](https://img.shields.io/github/actions/workflow/status/fxcmsvip/TGBOT-DOKCER/build-and-push.yml?style=flat-square&label=Build&logo=githubactions&logoColor=white)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-059669?style=flat-square&logo=git&logoColor=white)
 
 <!-- Tech Stack -->
@@ -161,8 +161,8 @@ User message → FAQ match → Get template with {variable} placeholders → AI 
 - **Plugin Settings Shortcut** &mdash; Installed plugins with settings tabs show a gear icon that navigates directly to the corresponding Settings tab
 - **Plugin Data Persistence** &mdash; Plugin files stored in a dedicated `/data/plugins` volume, surviving container restarts; load failures display error message with Retry button
 - **Shared Dependency Architecture** &mdash; Panel exposes React / ReactDOM / TanStack Query via `window` globals; plugins build as IIFE format, avoiding dual React instances and module resolution issues
-- **Plugin SDK + CLI** &mdash; [acp-plugin-sdk](https://github.com/fxxkrlab/acp-plugin-sdk) provides type hints + `acp-cli` CLI tool for init / validate / build / publish workflow
-- **Official Plugin Repository** &mdash; [ACP_PLUGINS](https://github.com/fxxkrlab/ACP_PLUGINS) open-source example plugins (e.g. TMDB Movie Request System)
+- **Plugin SDK + CLI** &mdash; [acp-plugin-sdk](https://github.com/fxcmsvip/acp-plugin-sdk) provides type hints + `acp-cli` CLI tool for init / validate / build / publish workflow
+- **Official Plugin Repository** &mdash; [ACP_PLUGINS](https://github.com/fxcmsvip/TGBOT-DOKCER) open-source example plugins (e.g. TMDB Movie Request System)
 
 - **User Management** &mdash; Tags, groups, blocking, search, and full Telegram user profile display
 - **AI Integration** &mdash; OpenAI-compatible API format with multi-provider configuration
@@ -555,7 +555,7 @@ Each filter supports 4 match modes:
 
 ```bash
 # Clone the repository
-git clone https://github.com/fxxkrlab/ADMINCHAT_PANEL.git
+git clone https://github.com/fxcmsvip/TGBOT-DOKCER.git
 cd ADMINCHAT_PANEL/deploy
 
 # Configure environment variables

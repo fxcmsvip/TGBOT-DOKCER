@@ -3,10 +3,10 @@
 ---
 
 <!-- Community & Status -->
-![GitHub Stars](https://img.shields.io/github/stars/fxxkrlab/ACP_PLUGINS?style=flat-square&color=FFD700&logo=github)
-![GitHub Forks](https://img.shields.io/github/forks/fxxkrlab/ACP_PLUGINS?style=flat-square&color=8B5CF6&logo=github)
-![GitHub Issues](https://img.shields.io/github/issues/fxxkrlab/ACP_PLUGINS?style=flat-square&color=FF8800&logo=github)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/fxxkrlab/ACP_PLUGINS?style=flat-square&color=059669&logo=github)
+![GitHub Stars](https://img.shields.io/github/stars/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=FFD700&logo=github)
+![GitHub Forks](https://img.shields.io/github/forks/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=8B5CF6&logo=github)
+![GitHub Issues](https://img.shields.io/github/issues/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=FF8800&logo=github)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=059669&logo=github)
 ![License](https://img.shields.io/badge/License-GPL_3.0-blue?style=flat-square)
 
 <!-- Ecosystem -->
@@ -93,7 +93,7 @@ TMDB ID: 278
 
 ## 开发指南
 
-想要开发自己的 ACP 插件？请使用 [ACP Plugin SDK](https://github.com/fxxkrlab/acp-plugin-sdk)。
+想要开发自己的 ACP 插件？请使用 [ACP Plugin SDK](https://github.com/fxcmsvip/acp-plugin-sdk)。
 
 ### 快速开始
 
@@ -128,8 +128,8 @@ ACP 插件支持以下五种能力声明（在 `manifest.json` 中配置）：
 
 ### 相关链接
 
-- [ACP Plugin SDK](https://github.com/fxxkrlab/acp-plugin-sdk) &mdash; 插件开发 SDK + CLI 工具
-- [ADMINCHAT Panel](https://github.com/fxxkrlab/ADMINCHAT_PANEL) &mdash; 主项目
+- [ACP Plugin SDK](https://github.com/fxcmsvip/acp-plugin-sdk) &mdash; 插件开发 SDK + CLI 工具
+- [ADMINCHAT Panel](https://github.com/fxcmsvip/TGBOT-DOKCER) &mdash; 主项目
 - [ACP Market](https://acpmarket.novahelix.org) &mdash; 插件市场
 
 ---

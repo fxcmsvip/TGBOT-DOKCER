@@ -2,7 +2,7 @@
 
 [English](./README.en.md)
 
-**ACP Market** 是 [AdminChat Panel](https://github.com/fxxkrlab) 的官方插件市场。开发者可以发布、分发和变现插件，用户可以一键发现和安装。
+**ACP Market** 是 [AdminChat Panel](https://github.com/fxcmsvip) 的官方插件市场。开发者可以发布、分发和变现插件，用户可以一键发现和安装。
 
 ## 功能特性
 
@@ -130,7 +130,7 @@
 ### Docker（推荐）
 
 ```bash
-git clone https://github.com/fxxkrlab/ACP_Market.git
+git clone https://github.com/fxcmsvip/TGBOT-DOKCER.git
 cd ACP_Market
 docker compose up --build
 ```

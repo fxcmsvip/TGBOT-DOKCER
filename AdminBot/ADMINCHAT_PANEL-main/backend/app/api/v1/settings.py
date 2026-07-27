@@ -48,7 +48,7 @@ async def get_version(
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
             resp = await client.get(
-                "https://raw.githubusercontent.com/fxxkrlab/ADMINCHAT_PANEL/main/VERSION"
+                "https://raw.githubusercontent.com/fxcmsvip/TGBOT-DOKCER/main/VERSION"
             )
             if resp.status_code == 200:
                 latest_version = resp.text.strip()

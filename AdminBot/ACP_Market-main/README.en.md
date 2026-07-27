@@ -2,7 +2,7 @@
 
 [中文版](./README.md)
 
-**ACP Market** is the official plugin marketplace for [AdminChat Panel](https://github.com/fxxkrlab). Developers can publish, distribute, and monetize plugins while users discover and install them with one click.
+**ACP Market** is the official plugin marketplace for [AdminChat Panel](https://github.com/fxcmsvip). Developers can publish, distribute, and monetize plugins while users discover and install them with one click.
 
 ## Features
 
@@ -131,7 +131,7 @@ Buyer           Frontend        Backend          Stripe
 ### Docker (Recommended)
 
 ```bash
-git clone https://github.com/fxxkrlab/ACP_Market.git
+git clone https://github.com/fxcmsvip/TGBOT-DOKCER.git
 cd ACP_Market
 docker compose up --build
 ```

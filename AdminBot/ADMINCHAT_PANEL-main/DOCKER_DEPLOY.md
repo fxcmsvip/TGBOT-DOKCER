@@ -5,8 +5,8 @@
 本项目使用 Docker 镜像部署，镜像源为 GitHub Container Registry (GHCR)。
 
 **默认镜像地址：**
-- 后端：`ghcr.io/fxxkrlab/adminchat_panel-backend:latest`
-- 前端：`ghcr.io/fxxkrlab/adminchat_panel-frontend:latest`
+- 后端：`fxcmsvip/adminchat-backend:latest`
+- 前端：`fxcmsvip/adminchat-frontend:latest`
 
 ---
 
@@ -71,10 +71,10 @@ docker push myregistry/adminchat-frontend:$VERSION
 ```yaml
 # 修改前
 backend:
-  image: ghcr.io/fxxkrlab/adminchat_panel-backend:${IMAGE_TAG:-latest}
+  image: fxcmsvip/adminchat-backend:${IMAGE_TAG:-latest}
 
 frontend:
-  image: ghcr.io/fxxkrlab/adminchat_panel-frontend:${IMAGE_TAG:-latest}
+  image: fxcmsvip/adminchat-frontend:${IMAGE_TAG:-latest}
 
 # 修改后（示例：使用私有仓库）
 backend:

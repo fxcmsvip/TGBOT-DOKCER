@@ -3,12 +3,12 @@
 ---
 
 <!-- Community & Status -->
-![GitHub Release](https://img.shields.io/github/v/release/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=00D9FF&label=Release)
-![GitHub Stars](https://img.shields.io/github/stars/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=FFD700&logo=github)
-![GitHub Forks](https://img.shields.io/github/forks/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=8B5CF6&logo=github)
-![GitHub Issues](https://img.shields.io/github/issues/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=FF8800&logo=github)
-![GitHub Last Commit](https://img.shields.io/github/last-commit/fxxkrlab/ADMINCHAT_PANEL?style=flat-square&color=059669&logo=github)
-![Build Status](https://img.shields.io/github/actions/workflow/status/fxxkrlab/ADMINCHAT_PANEL/build-and-push.yml?style=flat-square&label=Build&logo=githubactions&logoColor=white)
+![GitHub Release](https://img.shields.io/github/v/release/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=00D9FF&label=Release)
+![GitHub Stars](https://img.shields.io/github/stars/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=FFD700&logo=github)
+![GitHub Forks](https://img.shields.io/github/forks/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=8B5CF6&logo=github)
+![GitHub Issues](https://img.shields.io/github/issues/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=FF8800&logo=github)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/fxcmsvip/TGBOT-DOKCER?style=flat-square&color=059669&logo=github)
+![Build Status](https://img.shields.io/github/actions/workflow/status/fxcmsvip/TGBOT-DOKCER/build-and-push.yml?style=flat-square&label=Build&logo=githubactions&logoColor=white)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-059669?style=flat-square&logo=git&logoColor=white)
 
 <!-- Tech Stack -->
@@ -378,8 +378,8 @@ docker network connect your-shared-network gte-embedding
 - **插件设置快捷入口** &mdash; 已安装插件列表中带有设置面板的插件显示齿轮图标，点击直接跳转到对应设置标签页
 - **插件数据持久化** &mdash; 插件文件存储在独立的 `/data/plugins` 卷中，容器重启后不会丢失；加载失败时自动显示错误信息和重试按钮
 - **共享依赖架构** &mdash; Panel 通过 `window` 全局变量向插件提供 React / ReactDOM / TanStack Query 等共享依赖，插件以 IIFE 格式构建，避免双 React 实例和模块解析问题
-- **Plugin SDK + CLI** &mdash; [acp-plugin-sdk](https://github.com/fxxkrlab/acp-plugin-sdk) 提供类型提示 + `acp-cli` 命令行工具，支持 init / validate / build / publish 全流程
-- **官方插件仓库** &mdash; [ACP_PLUGINS](https://github.com/fxxkrlab/ACP_PLUGINS) 开源示例插件（如 TMDB 求片系统）
+- **Plugin SDK + CLI** &mdash; [acp-plugin-sdk](https://github.com/fxcmsvip/acp-plugin-sdk) 提供类型提示 + `acp-cli` 命令行工具，支持 init / validate / build / publish 全流程
+- **官方插件仓库** &mdash; [ACP_PLUGINS](https://github.com/fxcmsvip/TGBOT-DOKCER) 开源示例插件（如 TMDB 求片系统）
 
 ### 用户与安全
 - **用户管理** &mdash; 标签/分组/拉黑/搜索，完整的 TG 用户信息展示
@@ -596,7 +596,7 @@ flowchart TB
 
 ```bash
 # 克隆仓库
-git clone https://github.com/fxxkrlab/ADMINCHAT_PANEL.git
+git clone https://github.com/fxcmsvip/TGBOT-DOKCER.git
 cd ADMINCHAT_PANEL/deploy
 
 # 配置环境变量
