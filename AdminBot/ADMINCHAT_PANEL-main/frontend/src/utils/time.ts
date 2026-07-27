@@ -67,7 +67,7 @@ export function formatRelativeTime(dateStr: string): string {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
   const lang = useLangStore.getState().lang;
-  const isZh = lang === 'zh-CN' || lang === 'zh-TW';
+  const isZh = lang === 'system';
 
   if (diffMins < 1) return isZh ? '刚刚' : 'just now';
   if (diffMins < 60) return isZh ? `${diffMins}分钟前` : `${diffMins}m ago`;
