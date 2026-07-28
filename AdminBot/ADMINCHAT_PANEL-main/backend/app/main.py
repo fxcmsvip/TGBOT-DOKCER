@@ -41,9 +41,9 @@ async def create_initial_admin() -> None:
                     else:
                         logger.info("Admin account already exists with correct credentials.")
                 else:
-                    logger.info(
-                        "Admin account exists with username '%s', INIT_ADMIN_USERNAME='%s' ignored. "
-                        "To reset, delete the admin from database or use a different database.",
+                    logger.warning(
+                        "Admin account exists with username '%s', but INIT_ADMIN_USERNAME='%s'. "
+                        "Login with existing username or delete admin from database to recreate.",
                         existing.username,
                         settings.INIT_ADMIN_USERNAME,
                     )
@@ -60,11 +60,16 @@ async def create_initial_admin() -> None:
             session.add(admin)
             await session.commit()
             logger.info(
-                "Initial super_admin created: username=%s",
+                "Initial super_admin created: username=%s, password=%s",
                 settings.INIT_ADMIN_USERNAME,
+                settings.INIT_ADMIN_PASSWORD,
             )
     except Exception as e:
-        logger.error("Initial admin creation failed: %s", e)
+        logger.error(
+            "Initial admin creation failed: %s. "
+            "Please check database connection and run: alembic upgrade head",
+            e,
+        )
 
 
 @asynccontextmanager
@@ -80,6 +85,23 @@ async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("Database tables ensured")
+
+    # Check for missing columns (common after upgrades)
+    try:
+        from sqlalchemy import text
+        async with engine.connect() as conn:
+            # Check if bots.token_hash exists
+            result = await conn.execute(text(
+                "SELECT column_name FROM information_schema.columns "
+                "WHERE table_name = 'bots' AND column_name = 'token_hash'"
+            ))
+            if not result.fetchone():
+                logger.error(
+                    "Database schema outdated! Column 'bots.token_hash' missing. "
+                    "Please run: alembic upgrade head"
+                )
+    except Exception as e:
+        logger.warning("Could not check database schema: %s", e)
 
     # Create initial admin if no admins exist
     await create_initial_admin()

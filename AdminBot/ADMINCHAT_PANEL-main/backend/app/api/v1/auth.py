@@ -25,15 +25,30 @@ async def login(
     db: Annotated[AsyncSession, Depends(get_db)],
 ) -> APIResponse:
     """Authenticate admin user and return JWT tokens."""
-    result = await db.execute(
-        select(Admin).where(Admin.username == body.username)
-    )
-    admin = result.scalar_one_or_none()
+    try:
+        result = await db.execute(
+            select(Admin).where(Admin.username == body.username)
+        )
+        admin = result.scalar_one_or_none()
+    except Exception as e:
+        # 数据库连接或查询错误
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Database error: {str(e)}. Please check database connection and run migrations.",
+        )
 
-    if admin is None or not verify_password(body.password, admin.password_hash):
+    if admin is None:
+        # 用户不存在
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid username or password",
+            detail=f"User '{body.username}' not found. Check INIT_ADMIN_USERNAME in .env file.",
+        )
+
+    if not verify_password(body.password, admin.password_hash):
+        # 密码错误
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Wrong password for user '{body.username}'. Check INIT_ADMIN_PASSWORD in .env file.",
         )
 
     if not admin.is_active:
