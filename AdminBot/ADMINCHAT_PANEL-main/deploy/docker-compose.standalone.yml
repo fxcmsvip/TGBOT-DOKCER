@@ -25,8 +25,9 @@ services:
       # [BIND MOUNT] Uncomment below, comment above
       # - ./data/media:/app/media
       # - ./data/plugins:/data/plugins
-    ports:
-      - "${BACKEND_PORT:-8000}:8000"
+    # [NO PROXY] Uncomment to expose port directly
+    # ports:
+    #   - "${BACKEND_PORT:-8000}:8000"
     networks:
       - adminchat
     healthcheck:
@@ -40,8 +41,9 @@ services:
     image: fxcmsvip/adminchat-frontend:${IMAGE_TAG:-latest}
     container_name: adminchat-frontend
     restart: unless-stopped
-    ports:
-      - "${FRONTEND_PORT:-3000}:80"
+    # [NO PROXY] Uncomment to expose port directly
+    # ports:
+    #   - "${FRONTEND_PORT:-3000}:80"
     networks:
       - adminchat
 
