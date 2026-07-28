@@ -9,7 +9,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import JSONB
 
 revision = "007"
-down_revision = "006"
+down_revision = "006_extend_ai_usage_logs"
 branch_labels = None
 depends_on = None
 

@@ -10,8 +10,8 @@ from alembic import op
 import sqlalchemy as sa
 
 # revision identifiers
-revision: str = '006_encrypt_bot_tokens'
-down_revision: Union[str, None] = '005_fix_model_issues'
+revision: str = '009_encrypt_bot_tokens'
+down_revision: Union[str, None] = '008_add_plugin_tables'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
